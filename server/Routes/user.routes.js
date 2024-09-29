@@ -18,7 +18,11 @@ router.route("/logout").get(logout);
 
 router
   .route("/profile/edit")
-  .patch(isAuthenticated, upload.single("profilePicture"), editProfile);
+  .patch(isAuthenticated, upload.single("profilePic"), (req, res) => {
+    console.log("Uploaded file:", req.file);
+    console.log("Request body:", req.body);
+    editProfile(req, res);
+  });
 router.route("/profile/:id").get(isAuthenticated, getProfile);
 
 router.route("/suggested").get(isAuthenticated, getSuggestedUsers);
