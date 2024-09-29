@@ -1,14 +1,17 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import getDataUri from "../utils/datauri.js";
-import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Please fill in all fields", success: false });
+    }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(401).json({
         message: "Email Already exists",
@@ -18,18 +21,23 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    await User.create({
+    user = await User.create({
       username,
       email,
-      hashedPassword,
+      password: hashedPassword,
     });
 
     return res.status(201).json({
       message: "Registration Successful",
       success: true,
+      user,
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Server error from register controllers",
+      success: false,
+    });
   }
 };
 
@@ -53,19 +61,8 @@ export const login = async (req, res) => {
       });
     }
 
-    user = {
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      profilePic: user.profilePic,
-      bio: user.bio,
-      gender: user.gender,
-      followers: user.followers,
-      following: user.following,
-      posts: user.posts,
-    };
-
-    const token = jwt.token({ userId: user._id }, process.env.SECRET_KEY, {
+    console.log(user);
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
@@ -82,6 +79,10 @@ export const login = async (req, res) => {
       });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Server error from login controllers",
+      success: false,
+    });
   }
 };
 
@@ -91,55 +92,6 @@ export const logout = async (req, res) => {
     res.status(200).json({
       message: "Logout Successfully",
       success: true,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getProfile = async (req, res) => {
-  try {
-    const userId = req.params.is;
-    let user = await User.findById(userId)
-      .populate({ path: "posts", createdAt: -1 })
-      .populate("bookmarks");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const editProfile = async (req, res) => {
-  try {
-    const userId = req.id;
-    const { bio, gender } = req.body;
-    const profilePic = req.file;
-
-    let cloudResponse;
-    if (profilePic) {
-      const fileUri = getDataUri(profilePic);
-      cloudResponse = await cloudinary.uploader.upload(fileUri, {
-        folder: "Wavefront",
-      });
-    }
-
-    const user = await User.findById(userId).select("-password");
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found.",
-        success: false,
-      });
-    }
-
-    if (bio) user.bio = bio;
-    if (gender) user.gender = gender;
-    if (profilePic) user.profilePic = profilePic;
-
-    await user.save();
-
-    return res.status(200).json({
-      message: "Profile updated.",
-      success: true,
-      user,
     });
   } catch (error) {
     console.log(error);

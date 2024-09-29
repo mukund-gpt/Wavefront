@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema.Types(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -54,6 +54,14 @@ const userSchema = new mongoose.Schema.Types(
         ref: "Post",
       },
     ],
+  },
+  {
+    toJSON: {
+      transform: (doc, ret) => {
+        delete ret.password; // Remove the password when converting to JSON
+        return ret;
+      },
+    },
   },
   { timestamps: true }
 );
