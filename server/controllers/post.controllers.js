@@ -94,3 +94,49 @@ export const getUserPost = async (req, res) => {
     });
   }
 };
+
+export const likePost = async (req, res) => {
+  try {
+    const likedUser = req.id;
+    const postId = req.params.id;
+    const post = Post.findById(postId);
+
+    if (!post) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Not Found" });
+    }
+
+    await post.updateOne({ $addToSet: { likes: likedUser } });
+    await post.save();
+
+    //implement socket io
+
+    return res.status(200).json({ success: true, message: `Post liked` });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const dilikePost = async (req, res) => {
+  try {
+    const likedUser = req.id;
+    const postId = req.params.id;
+    const post = Post.findById(postId);
+
+    if (!post) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Not Found" });
+    }
+
+    await post.updateOne({ $pull: { likes: likedUser } });
+    await post.save();
+
+    //implement socket io
+
+    return res.status(200).json({ success: true, message: `Post diliked` });
+  } catch (error) {
+    console.log(error);
+  }
+};
