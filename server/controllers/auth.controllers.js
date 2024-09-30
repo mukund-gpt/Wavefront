@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Post } from "../models/post.model.js";
 
 export const register = async (req, res) => {
   try {
@@ -66,6 +67,15 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
+    //populate each post
+    const populatedPosts = await Promise.all(
+      user.posts.map(async (postId) => {
+        const post = await Post.findById(postId);
+        if (post.author.equals(user._id)) return post;
+        return null;
+      })
+    );
+
     return res
       .cookie("token", token, {
         httpOnly: true,
@@ -76,6 +86,7 @@ export const login = async (req, res) => {
         message: `Welcome ${user.username}`,
         success: true,
         user,
+        posts: populatedPosts,
       });
   } catch (error) {
     console.log(error);
