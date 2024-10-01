@@ -28,11 +28,30 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    return res.status(201).json({
-      message: "Registration Successful",
-      success: true,
-      user,
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
     });
+
+    //populate each post
+    const populatedPosts = await Promise.all(
+      user.posts.map(async (postId) => {
+        const post = await Post.findById(postId);
+        if (post.author.equals(user._id)) return post;
+        return null;
+      })
+    );
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1 * 24 * 3600 * 1000,
+      })
+      .json({
+        message: `Welcome ${user.username}`,
+        success: true,
+        user,
+        posts: populatedPosts,
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -62,7 +81,7 @@ export const login = async (req, res) => {
       });
     }
 
-    console.log(user);
+    // console.log(user);
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
