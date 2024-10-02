@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ExploreIcon,
   HomeIcon,
@@ -8,9 +9,13 @@ import {
   SearchIcon,
   WavesIcon,
 } from "@/assests/SVG/LeftSideBarIcons";
-import React from "react";
+import { baseUrl } from "@/utils/baseUrl";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const LeftSideBar = () => {
+  const navigate = useNavigate();
+
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
     { icon: <SearchIcon />, text: "Search" },
@@ -21,6 +26,27 @@ const LeftSideBar = () => {
     { icon: <PlusIcon />, text: "Create Post" },
     { icon: <LogoutIcon />, text: "Logout" },
   ];
+
+  const logoutHandler = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/user/logout`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      const data = await res.json();
+      toast.success(data.message);
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const sideBarHandler = (textType) => {
+    if (textType === "Logout") {
+      logoutHandler();
+    }
+  };
   return (
     <>
       <div className="fixed top-0 z-10 left-0 bg-white h-full">
@@ -34,6 +60,7 @@ const LeftSideBar = () => {
                 <div
                   className="flex items-center m-3 p-3 px-8 cursor-pointer rounded-3xl hover:bg-slate-200"
                   key={index}
+                  onClick={() => sideBarHandler(item.text)}
                 >
                   {item.icon}
                   <span className="ml-4">{item.text}</span>
