@@ -49,7 +49,7 @@ const LeftSideBar = () => {
   };
   return (
     <>
-      <div className="fixed top-0 z-10 left-0 bg-white h-full">
+      <div className="fixed top-0 z-10 left-0 bg-white h-full sm:w-2/6 md:w-1/6">
         <div className="flex flex-col">
           <h1 className="m-5 p-4 font-bold text-3xl text-orange-500">
             Wavefront
