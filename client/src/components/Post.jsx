@@ -24,6 +24,7 @@ const Post = () => {
               <span className="mx-3 text-black">Username</span>
             </div>
           </div>
+
           {/* dropdown */}
           <details className=" dropdown dropdown-end">
             <summary className="btn m-1 bg-transparent hover:bg-transparent border-none text-black">
@@ -70,12 +71,11 @@ const Post = () => {
             </div>
             <div className="text-gray-600 cursor-pointer ">
               <div onClick={() => setOpenComment(true)}>view all comment</div>
-              {openComment && (
-                <CommentDialog
-                  openComment={openComment}
-                  setOpenComment={setOpenComment}
-                />
-              )}
+
+              <CommentDialog
+                openComment={openComment}
+                setOpenComment={setOpenComment}
+              />
 
               <div className="flex items-center justify-between">
                 <input
