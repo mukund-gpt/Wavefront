@@ -12,10 +12,11 @@ import {
 import { baseUrl } from "@/utils/baseUrl";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
-
+  const { user } = useSelector((store) => store.auth);
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
     { icon: <SearchIcon />, text: "Search" },
@@ -24,6 +25,16 @@ const LeftSideBar = () => {
     { icon: <MessagesIcon />, text: "Messages" },
     { icon: <NotificationIcon />, text: "Notifications" },
     { icon: <PlusIcon />, text: "Create Post" },
+    {
+      icon: (
+        <div className="avatar flex items-center p-1 ">
+          <div className="w-10 rounded-full">
+            <img src={user?.profilePic} />
+          </div>
+        </div>
+      ),
+      text: "Profile",
+    },
     { icon: <LogoutIcon />, text: "Logout" },
   ];
 
