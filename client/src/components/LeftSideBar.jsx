@@ -12,10 +12,13 @@ import {
 import { baseUrl } from "@/utils/baseUrl";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser } from "@/redux/authSlice";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { user } = useSelector((store) => store.auth);
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
@@ -47,6 +50,7 @@ const LeftSideBar = () => {
       });
       const data = await res.json();
       toast.success(data.message);
+      dispatch(setAuthUser(null));
       navigate("/login");
     } catch (error) {
       toast.error(error.message);
