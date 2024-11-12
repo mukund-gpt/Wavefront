@@ -3,7 +3,7 @@ import { FaRegHeart, FaCommentAlt, FaRegBookmark } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import CommentDialog from "./CommentDialog";
 
-const Post = () => {
+const Post = ({ post }) => {
   const [text, setText] = useState("");
   const [openComment, setOpenComment] = useState(false);
   const getComment = (e) => {
@@ -19,9 +19,9 @@ const Post = () => {
           <div className="flex items-center gap-2">
             <div className="avatar flex items-center p-1 ">
               <div className="w-10 rounded-full">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                <img src={post.author.profilePic} />
               </div>
-              <span className="mx-3 text-black">Username</span>
+              <span className="mx-3 text-black">{post.author.username}</span>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ const Post = () => {
         {/* POST */}
         <img
           className="py-2 rounded-sm w-full aspect-square object-cover"
-          src="https://plus.unsplash.com/premium_photo-1714051661316-4432704b02f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={post.image}
           alt="post_image"
         />
 
@@ -67,7 +67,8 @@ const Post = () => {
           <div className="text-black">
             <div>5k likes</div>
             <div>
-              <span className="font-bold mx-1">Username</span> caption
+              <span className="font-bold mx-1">{post.author.username}</span>
+              {post.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
               <div onClick={() => setOpenComment(true)}>view all comment</div>

@@ -2,7 +2,7 @@ import sharp from "sharp";
 import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../models/post.model.js";
 import { User } from "../models/user.model.js";
-
+import { Comment } from "../models/comment.model.js";
 export const addPost = async (req, res) => {
   try {
     const { caption } = req.body;
@@ -51,15 +51,15 @@ export const addPost = async (req, res) => {
 
 export const getAllPost = async (req, res) => {
   try {
-    const posts = Post.find()
+    const posts = await Post.find()
       .sort({ createdAt: -1 })
-      .populate({ path: "author", select: "username, profilePic" })
+      .populate({ path: "author", select: "username profilePic" })
       .populate({
         path: "comments",
         sort: { createdAt: -1 },
         populate: {
           path: "author",
-          select: "username, profilePic",
+          select: "username profilePic",
         },
       });
 

@@ -1,9 +1,11 @@
 import Feed from "@/components/Feed";
 import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
+import useGetAllPost from "@/hooks/useGetAllPost";
 import React from "react";
 
 const Home = () => {
+  useGetAllPost();
   return (
     <>
       <div className="flex">
