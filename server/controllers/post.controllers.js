@@ -8,6 +8,7 @@ export const addPost = async (req, res) => {
     const { caption } = req.body;
     const image = req.file;
     const authorId = req.id;
+    console.log(authorId);
 
     if (!image) return res.status(401).json({ message: "Iamge required" });
 
@@ -18,9 +19,10 @@ export const addPost = async (req, res) => {
       .toBuffer();
 
     //buffer to uri
-    const fileUri = `data:iamge/jpeg;base64,${optimizedIamgeBuffer.toString(
+    const fileUri = `data:image/jpeg;base64,${optimizedIamgeBuffer.toString(
       "base64"
     )}`;
+    // console.log(fileUri);
 
     //upload
     const cloudResponse = await cloudinary.uploader.upload(fileUri);

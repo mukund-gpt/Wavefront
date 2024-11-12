@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ExploreIcon,
   HomeIcon,
@@ -14,10 +14,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
+import CreatePost from "./CreatePost";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
   const sideBarItems = [
@@ -60,11 +63,13 @@ const LeftSideBar = () => {
   const sideBarHandler = (textType) => {
     if (textType === "Logout") {
       logoutHandler();
+    } else if (textType === "Create Post") {
+      setOpen(true);
     }
   };
   return (
     <>
-      <div className="fixed top-0 z-10 left-0 bg-white h-full sm:w-2/6 md:w-1/6">
+      <div className="fixed top-0 z-10 left-0 bg-white h-full w-60">
         <div className="flex flex-col">
           <h1 className="m-5 p-4 font-bold text-3xl text-orange-500">
             Wavefront
@@ -73,7 +78,7 @@ const LeftSideBar = () => {
             {sideBarItems.map((item, index) => {
               return (
                 <div
-                  className="flex items-center m-3 p-3 px-8 cursor-pointer rounded-3xl hover:bg-slate-200"
+                  className="flex items-center mx-3 my-2 p-3 px-8 cursor-pointer rounded-3xl hover:bg-slate-200"
                   key={index}
                   onClick={() => sideBarHandler(item.text)}
                 >
@@ -84,6 +89,7 @@ const LeftSideBar = () => {
             })}
           </div>
         </div>
+        <CreatePost open={open} setOpen={setOpen} />
       </div>
     </>
   );

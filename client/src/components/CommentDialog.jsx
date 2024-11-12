@@ -17,12 +17,12 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
   };
 
   const handleKeys = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       addCommentHandler();
     }
   };
+
   useEffect(() => {
-    // console.log(openComment);
     if (openComment) {
       document.getElementById("commentbox").checked = true;
     }
@@ -32,28 +32,32 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
     <>
       <input type="checkbox" id="commentbox" className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className="modal-box p-0 max-w-4xl bg-gray-300">
-          <div className="flex flex-1">
-            <div className="w-3/5">
+        <div className="modal-box p-0 md:max-w-4xl bg-gray-300">
+          <div className="flex flex-col md:flex-row flex-1">
+            {/* Image section */}
+            <div className="w-full md:w-3/5 h-64 md:h-auto">
               <img
-                className="rounded-sm w-full aspect-square object-cover"
+                className="rounded-sm w-full h-full object-cover"
                 src="https://plus.unsplash.com/premium_photo-1714051661316-4432704b02f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="post_image"
               />
             </div>
-            <div className="w-2/5 h-2/5 flex flex-col justify-between">
-              {/* avatar */}
-              <div className="flex items-center justify-between bg-red-300">
+
+            {/* Comment section */}
+            <div className="w-full md:w-2/5 flex flex-col justify-between">
+              {/* User info and options */}
+              <div className="flex items-center justify-between bg-red-300 p-3">
                 <div className="flex items-center gap-2">
-                  <div className="avatar flex items-center p-1 ">
+                  <div className="avatar">
                     <div className="w-10 rounded-full">
-                      <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                      <img
+                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                        alt="user avatar"
+                      />
                     </div>
                     <span className="mx-3 text-black">Username</span>
                   </div>
                 </div>
-
-                {/* dropdown */}
 
                 <details className="dropdown dropdown-end">
                   <summary className="btn m-1 bg-transparent hover:bg-transparent border-none text-black">
@@ -64,7 +68,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                       <a>Unfollow</a>
                     </li>
                     <li>
-                      <a>Add to favourite</a>
+                      <a>Add to favorite</a>
                     </li>
                     <li>
                       <a>Cancel</a>
@@ -73,21 +77,8 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                 </details>
               </div>
 
-              {/* comments */}
-
-              <div className="flex-1 overflow-y-auto max-h-96 p-4">
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
+              {/* Comments */}
+              <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 p-4">
                 <div>comments</div>
                 <div>comments</div>
                 <div>comments</div>
@@ -109,7 +100,8 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                 <div>comments</div>
               </div>
 
-              <div className="flex items-center gap-2 mx-2 my-1">
+              {/* Add comment input */}
+              <div className="flex items-center gap-2 p-3">
                 <input
                   type="text"
                   value={text}
@@ -129,6 +121,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
             </div>
           </div>
         </div>
+
         <label
           className="modal-backdrop"
           htmlFor="commentbox"
