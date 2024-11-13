@@ -152,8 +152,8 @@ export const addComment = async (req, res) => {
         .json({ success: false, message: "text is required" });
     }
 
-    //add comment
-    const comment = Comment.create({
+    // Create and populate the comment
+    const comment = await Comment.create({
       text,
       author: commentedUser,
       post: postId,
@@ -161,14 +161,25 @@ export const addComment = async (req, res) => {
 
     await comment.populate({ path: "author", select: "username profilePic" });
 
-    //add comment to post
-    const post = Post.findById(postId);
+    // Find the post and add the comment to its comments array
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Not Found" });
+    }
+
     post.comments.push(comment._id);
     await post.save();
 
-    return res.status(200).json({ success: true, message: `Comment added` });
+    return res.status(200).json({
+      success: true,
+      message: "Comment added",
+      comment,
+    });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 

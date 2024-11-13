@@ -16,7 +16,7 @@ const Post = ({ post }) => {
   const [openComment, setOpenComment] = useState(false);
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   const [postLikeCount, setPostLikeCount] = useState(post.likes.length);
-
+  const [comment, setComment] = useState(post.comments);
   const getComment = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
@@ -45,6 +45,41 @@ const Post = ({ post }) => {
                 likes: liked
                   ? p.likes.filter((id) => id !== user._id)
                   : [...p.likes, user._id],
+              }
+            : p
+        );
+        dispatch(setPosts(updatedPostData));
+        toast.info(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
+
+  const commentHandler = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/post/${post._id}/comment`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setText("");
+        console.log(data);
+        const updatedCommentData = [...comment, data.comment];
+        setComment(updatedCommentData);
+
+        //update in redux
+        const updatedPostData = posts.map((p) =>
+          p._id === post._id
+            ? {
+                ...p,
+                comments: updatedCommentData,
               }
             : p
         );
@@ -103,7 +138,7 @@ const Post = ({ post }) => {
                 <a>Add to favourite</a>
               </li>
 
-              {user._id === post?.author._id && (
+              {user?._id === post?.author?._id && (
                 <li className="text-red" onClick={deletePostHandler}>
                   <a>Delete</a>
                 </li>
@@ -145,7 +180,9 @@ const Post = ({ post }) => {
               {post?.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
-              <div onClick={() => setOpenComment(true)}>view all comment</div>
+              <div onClick={() => setOpenComment(true)}>
+                view {comment.length} comments
+              </div>
 
               <CommentDialog
                 openComment={openComment}
@@ -161,7 +198,12 @@ const Post = ({ post }) => {
                   onChange={getComment}
                 />
                 {text && (
-                  <span className="text-blue-500 font-semibold mx-1">Post</span>
+                  <span
+                    onClick={commentHandler}
+                    className="text-blue-500 font-semibold mx-1"
+                  >
+                    Post
+                  </span>
                 )}
               </div>
             </div>
