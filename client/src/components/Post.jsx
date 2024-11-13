@@ -2,15 +2,48 @@ import React, { useState } from "react";
 import { FaRegHeart, FaCommentAlt, FaRegBookmark } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import CommentDialog from "./CommentDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { baseUrl } from "@/utils/baseUrl";
+import { setPosts } from "@/redux/postSlice";
 
 const Post = ({ post }) => {
+  const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [openComment, setOpenComment] = useState(false);
+  const { user } = useSelector((store) => store.auth);
+  const { posts } = useSelector((store) => store.post);
+
   const getComment = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
       setText(inputText);
     } else setText("");
+  };
+
+  const deletePostHandler = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/post/${post?._id}/delete`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      // if (!res.ok) {
+      //   throw new Error("Network Response was Not OK");
+      // }
+
+      const data = await res.json();
+      if (data.success) {
+        const updatedPost = posts.filter(
+          (postItem) => postItem._id !== post._id
+        );
+        dispatch(setPosts(updatedPost));
+        toast.success(data.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      console.log(err);
+    }
   };
   return (
     <>
@@ -19,9 +52,9 @@ const Post = ({ post }) => {
           <div className="flex items-center gap-2">
             <div className="avatar flex items-center p-1 ">
               <div className="w-10 rounded-full">
-                <img src={post.author.profilePic} />
+                <img src={post?.author?.profilePic} />
               </div>
-              <span className="mx-3 text-black">{post.author.username}</span>
+              <span className="mx-3 text-black">{post?.author?.username}</span>
             </div>
           </div>
 
@@ -37,9 +70,12 @@ const Post = ({ post }) => {
               <li>
                 <a>Add to favourite</a>
               </li>
-              <li>
-                <a>Cancel</a>
-              </li>
+
+              {user._id === post?.author._id && (
+                <li className="text-red" onClick={deletePostHandler}>
+                  <a>Delete</a>
+                </li>
+              )}
             </ul>
           </details>
         </div>
@@ -47,7 +83,7 @@ const Post = ({ post }) => {
         {/* POST */}
         <img
           className="py-2 rounded-sm w-full aspect-square object-cover"
-          src={post.image}
+          src={post?.image}
           alt="post_image"
         />
 
@@ -67,8 +103,8 @@ const Post = ({ post }) => {
           <div className="text-black">
             <div>5k likes</div>
             <div>
-              <span className="font-bold mx-1">{post.author.username}</span>
-              {post.caption}
+              <span className="font-bold mx-1">{post?.author.username}</span>
+              {post?.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
               <div onClick={() => setOpenComment(true)}>view all comment</div>

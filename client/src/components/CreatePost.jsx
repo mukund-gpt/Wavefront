@@ -1,5 +1,7 @@
+import { setPosts } from "@/redux/postSlice";
 import { baseUrl } from "@/utils/baseUrl";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const CreatePost = ({ open, setOpen }) => {
@@ -7,6 +9,8 @@ const CreatePost = ({ open, setOpen }) => {
   const [file, setFile] = useState(null);
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
+  const { posts } = useSelector((store) => store.post);
+  const dispatch = useDispatch();
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files?.[0];
@@ -29,6 +33,10 @@ const CreatePost = ({ open, setOpen }) => {
   const createPostHandler = async (e) => {
     if (!file) {
       toast.error("Please select an image");
+      return;
+    }
+    if (!caption) {
+      toast.error("Please add a caption");
       return;
     }
 
@@ -57,6 +65,7 @@ const CreatePost = ({ open, setOpen }) => {
 
       const data = await res.json();
       if (data.success) {
+        dispatch(setPosts([data.posts, ...posts]));
         toast.success(data.message);
         setOpen(false);
       }

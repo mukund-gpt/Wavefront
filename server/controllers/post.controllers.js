@@ -10,7 +10,7 @@ export const addPost = async (req, res) => {
     const authorId = req.id;
     console.log(authorId);
 
-    if (!image) return res.status(401).json({ message: "Iamge required" });
+    if (!image) return res.status(401).json({ message: "Image required" });
 
     //image resize
     const optimizedIamgeBuffer = await sharp(image.buffer)

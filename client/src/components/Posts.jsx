@@ -7,11 +7,8 @@ const Posts = () => {
   return (
     <>
       <div className="w-full">
-        {/* <Post />
-        <Post />
-        <Post /> */}
         {posts.map((post) => (
-          <Post key={post._id} post={post} />
+          <Post key={post?._id} post={post} />
         ))}
       </div>
     </>
