@@ -101,7 +101,7 @@ export const likePost = async (req, res) => {
   try {
     const likedUser = req.id;
     const postId = req.params.id;
-    const post = Post.findById(postId);
+    const post = await Post.findById(postId);
 
     if (!post) {
       return res
@@ -110,7 +110,6 @@ export const likePost = async (req, res) => {
     }
 
     await post.updateOne({ $addToSet: { likes: likedUser } });
-    await post.save();
 
     //implement socket io
 
@@ -120,11 +119,11 @@ export const likePost = async (req, res) => {
   }
 };
 
-export const dilikePost = async (req, res) => {
+export const dislikePost = async (req, res) => {
   try {
     const likedUser = req.id;
     const postId = req.params.id;
-    const post = Post.findById(postId);
+    const post = await Post.findById(postId);
 
     if (!post) {
       return res
@@ -133,11 +132,10 @@ export const dilikePost = async (req, res) => {
     }
 
     await post.updateOne({ $pull: { likes: likedUser } });
-    await post.save();
 
     //implement socket io
 
-    return res.status(200).json({ success: true, message: `Post diliked` });
+    return res.status(200).json({ success: true, message: `Post disliked` });
   } catch (error) {
     console.log(error);
   }

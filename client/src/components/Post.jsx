@@ -8,17 +8,53 @@ import { baseUrl } from "@/utils/baseUrl";
 import { setPosts } from "@/redux/postSlice";
 
 const Post = ({ post }) => {
+  const { user } = useSelector((store) => store.auth);
+  const { posts } = useSelector((store) => store.post);
+
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [openComment, setOpenComment] = useState(false);
-  const { user } = useSelector((store) => store.auth);
-  const { posts } = useSelector((store) => store.post);
+  const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
+  const [postLikeCount, setPostLikeCount] = useState(post.likes.length);
 
   const getComment = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
       setText(inputText);
     } else setText("");
+  };
+  const likeOrDislikeHandler = async () => {
+    const action = liked ? "dislike" : "like";
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/post/${post?._id}/${action}`, {
+        method: "PATCH",
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        const updatedLiked = liked ? postLikeCount - 1 : postLikeCount + 1;
+        setLiked(!liked);
+        setPostLikeCount(updatedLiked);
+
+        //update in redux
+        const updatedPostData = posts.map((p) =>
+          p._id === post._id
+            ? {
+                ...p,
+                likes: liked
+                  ? p.likes.filter((id) => id !== user._id)
+                  : [...p.likes, user._id],
+              }
+            : p
+        );
+        dispatch(setPosts(updatedPostData));
+        toast.info(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
   };
 
   const deletePostHandler = async () => {
@@ -27,10 +63,6 @@ const Post = ({ post }) => {
         method: "DELETE",
         credentials: "include",
       });
-
-      // if (!res.ok) {
-      //   throw new Error("Network Response was Not OK");
-      // }
 
       const data = await res.json();
       if (data.success) {
@@ -90,7 +122,13 @@ const Post = ({ post }) => {
         <div className="">
           <div className="flex items-center justify-between text-black">
             <div className="w-1/4 flex justify-between items-center">
-              <FaRegHeart className="cursor-pointer size-6 " />
+              <FaRegHeart
+                onClick={likeOrDislikeHandler}
+                className={`cursor-pointer size-6 ${
+                  liked ? "text-red-500" : "text-black"
+                }`}
+              />
+
               <FaCommentAlt
                 className="cursor-pointer size-6"
                 onClick={() => setOpenComment(true)}
@@ -101,7 +139,7 @@ const Post = ({ post }) => {
           </div>
 
           <div className="text-black">
-            <div>5k likes</div>
+            <div>{postLikeCount} likes</div>
             <div>
               <span className="font-bold mx-1">{post?.author.username}</span>
               {post?.caption}
