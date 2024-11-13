@@ -5,7 +5,7 @@ import CommentDialog from "./CommentDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { baseUrl } from "@/utils/baseUrl";
-import { setPosts } from "@/redux/postSlice";
+import { setPosts, setSelectedPost } from "@/redux/postSlice";
 
 const Post = ({ post }) => {
   const { user } = useSelector((store) => store.auth);
@@ -166,7 +166,9 @@ const Post = ({ post }) => {
 
               <FaCommentAlt
                 className="cursor-pointer size-6"
-                onClick={() => setOpenComment(true)}
+                onClick={() => {
+                  dispatch(setSelectedPost(post)), setOpenComment(true);
+                }}
               />
               <IoIosSend className="cursor-pointer size-7" />
             </div>
@@ -180,9 +182,15 @@ const Post = ({ post }) => {
               {post?.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
-              <div onClick={() => setOpenComment(true)}>
-                view {comment.length} comments
-              </div>
+              {comment.length > 0 && (
+                <div
+                  onClick={() => {
+                    dispatch(setSelectedPost(post)), setOpenComment(true);
+                  }}
+                >
+                  view {comment.length} comments
+                </div>
+              )}
 
               <CommentDialog
                 openComment={openComment}

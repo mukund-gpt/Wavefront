@@ -1,24 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Comment from "./Comment";
+import { baseUrl } from "@/utils/baseUrl";
+import { toast } from "react-toastify";
+import { setPosts } from "@/redux/postSlice";
 
 const CommentDialog = ({ openComment, setOpenComment }) => {
+  const { selectedPost, posts } = useSelector((store) => store.post);
+
+  const dispatch = useDispatch();
+  const commentsEndRef = useRef(null);
+
   const [text, setText] = useState("");
+  const [comment, setComment] = useState(selectedPost?.comments);
 
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
       setText(inputText);
-      console.log(inputText);
+      // console.log(inputText);
     }
   };
 
-  const addCommentHandler = () => {
-    console.log("addCommentHandler");
-    setText("");
+  const commentHandler = async () => {
+    try {
+      const res = await fetch(
+        `${baseUrl}/api/v1/post/${selectedPost?._id}/comment`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ text }),
+        }
+      );
+      const data = await res.json();
+      if (data.success) {
+        setText("");
+        console.log(data);
+        const updatedCommentData = [...comment, data.comment];
+        setComment(updatedCommentData);
+
+        //update in redux
+        const updatedPostData = posts.map((p) =>
+          p._id === selectedPost._id
+            ? {
+                ...p,
+                comments: updatedCommentData,
+              }
+            : p
+        );
+        dispatch(setPosts(updatedPostData));
+        toast.info(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error);
+    }
   };
 
   const handleKeys = (e) => {
     if (e.key === "Enter") {
-      addCommentHandler();
+      commentHandler();
     }
   };
 
@@ -27,6 +71,11 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
       document.getElementById("commentbox").checked = true;
     }
   }, [openComment]);
+
+  useEffect(() => {
+    // Scroll to the bottom when comments change
+    commentsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [comment]);
 
   return (
     <>
@@ -38,7 +87,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
             <div className="w-full md:w-3/5 h-64 md:h-auto">
               <img
                 className="rounded-sm w-full h-full object-cover"
-                src="https://plus.unsplash.com/premium_photo-1714051661316-4432704b02f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src={selectedPost?.image}
                 alt="post_image"
               />
             </div>
@@ -51,11 +100,13 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                   <div className="avatar">
                     <div className="w-10 rounded-full">
                       <img
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                        src={selectedPost?.author?.profilePic}
                         alt="user avatar"
                       />
                     </div>
-                    <span className="mx-3 text-black">Username</span>
+                    <span className="mx-3 text-black">
+                      {selectedPost?.author?.username}
+                    </span>
                   </div>
                 </div>
 
@@ -79,25 +130,10 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
 
               {/* Comments */}
               <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 p-4">
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
-                <div>comments</div>
+                {comment?.map((comment) => (
+                  <Comment key={comment._id} comment={comment} />
+                ))}
+                <div ref={commentsEndRef} />
               </div>
 
               {/* Add comment input */}
@@ -111,7 +147,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                   placeholder="Add a comment..."
                 />
                 <button
-                  onClick={addCommentHandler}
+                  onClick={commentHandler}
                   disabled={!text.trim()}
                   className="btn btn-success text-white"
                 >
