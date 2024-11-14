@@ -6,10 +6,13 @@ import { baseUrl } from "@/utils/baseUrl";
 import GoogleSvg from "@/assests/SVG/GoogleSvg";
 import OpenEye from "@/assests/SVG/OpenEye";
 import CloseEye from "@/assests/SVG/CloseEye";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "@/redux/authSlice";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -49,6 +52,7 @@ const SignUp = () => {
       // console.log(data);
 
       if (data.success) {
+        dispatch(setAuthUser(data.user));
         toast.success("Registration Success");
         navigate("/");
       } else {

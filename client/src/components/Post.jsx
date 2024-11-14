@@ -39,12 +39,12 @@ const Post = ({ post }) => {
 
         //update in redux
         const updatedPostData = posts.map((p) =>
-          p._id === post._id
+          p?._id === post?._id
             ? {
                 ...p,
                 likes: liked
-                  ? p.likes.filter((id) => id !== user._id)
-                  : [...p.likes, user._id],
+                  ? p.likes.filter((id) => id !== user?._id)
+                  : [...p.likes, user?._id],
               }
             : p
         );
@@ -122,6 +122,9 @@ const Post = ({ post }) => {
                 <img src={post?.author?.profilePic} />
               </div>
               <span className="mx-3 text-black">{post?.author?.username}</span>
+              {user?._id === post?.author?._id && (
+                <span className="badge">Author</span>
+              )}
             </div>
           </div>
 
@@ -167,7 +170,7 @@ const Post = ({ post }) => {
               <FaCommentAlt
                 className="cursor-pointer size-6"
                 onClick={() => {
-                  dispatch(setSelectedPost(post)), setOpenComment(true);
+                  dispatch(setSelectedPost(post)), setOpenComment(!openComment);
                 }}
               />
               <IoIosSend className="cursor-pointer size-7" />
@@ -185,7 +188,8 @@ const Post = ({ post }) => {
               {comment.length > 0 && (
                 <div
                   onClick={() => {
-                    dispatch(setSelectedPost(post)), setOpenComment(true);
+                    dispatch(setSelectedPost(post)),
+                      setOpenComment(!openComment);
                   }}
                 >
                   view {comment.length} comments
