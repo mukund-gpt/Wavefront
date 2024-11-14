@@ -2,10 +2,12 @@ import Feed from "@/components/Feed";
 import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
 import useGetAllPost from "@/hooks/useGetAllPost";
+import useGetSuggestedUsers from "@/hooks/useGetSuggestedUsers";
 import React from "react";
 
 const Home = () => {
   useGetAllPost();
+  useGetSuggestedUsers();
   return (
     <>
       <div className="flex">
