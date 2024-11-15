@@ -6,6 +6,14 @@ import cloudinary from "../utils/cloudinary.js";
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
+    // console.log(userId);
+
+    if (!userId || !userId.match(/^[0-9a-fA-F]{24}$/)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid user ID", success: false });
+    }
+
     const user = await User.findById(userId)
       .select("-password")
       .populate({ path: "posts", options: { sort: { createdAt: -1 } } })

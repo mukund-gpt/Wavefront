@@ -1,12 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SuggestedUsers = () => {
+  const navigate = useNavigate();
   const { suggestedUsers } = useSelector((store) => store.auth);
 
   const handleFollowUnfollow = () => {
     alert("follow click");
   };
+
+  const navigateToProfile = (id) => {
+    navigate(`/profile/${id}`);
+  };
+
   return (
     <div className="w-full p-4 bg-gray-100 rounded-lg shadow-md">
       <div className="text-base text-center font-bold">Suggested Users</div>
@@ -20,13 +27,17 @@ const SuggestedUsers = () => {
             <div className="w-12 h-12 avatar rounded-full overflow-hidden">
               <img
                 src={user?.profilePic}
+                onClick={() => navigateToProfile(user?._id)}
                 alt="User Avatar"
                 className="object-cover w-full h-full"
               />
             </div>
             <div className="ml-3">
               <div className="flex items-center gap-2">
-                <span className="text-base font-semibold text-black">
+                <span
+                  onClick={() => navigateToProfile(user?._id)}
+                  className="text-base font-semibold text-black"
+                >
                   {user?.username}
                 </span>
                 {/* Follow Button */}
