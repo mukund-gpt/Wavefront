@@ -57,6 +57,7 @@ export const editProfile = async (req, res) => {
       });
       user.profilePic = cloudResponse.secure_url;
     }
+    // console.log(cloudResponse);
 
     await user.save();
 

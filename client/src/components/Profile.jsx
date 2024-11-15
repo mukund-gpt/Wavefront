@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetUserProfile from "@/hooks/useGetUserProfile";
 
@@ -44,12 +44,12 @@ const Profile = () => {
             <div className="text-2xl font-semibold flex items-center gap-2">
               {userProfile?.username}
               {user?._id === userProfile?._id ? (
-                <button
-                  onClick={handleEditProfile}
+                <Link
+                  to="/profile/edit"
                   className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer"
                 >
                   Edit Profile
-                </button>
+                </Link>
               ) : (
                 <>
                   {!isFollowing ? (
