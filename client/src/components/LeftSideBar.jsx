@@ -13,7 +13,13 @@ import { baseUrl } from "@/utils/baseUrl";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "@/redux/authSlice";
+import {
+  setAuthUser,
+  setChatsOfSelectedUser,
+  setSelectedUser,
+  setSuggestedUsers,
+  setUserProfile,
+} from "@/redux/authSlice";
 import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 
@@ -58,7 +64,10 @@ const LeftSideBar = () => {
       dispatch(setAuthUser(null));
       dispatch(setPosts([]));
       dispatch(setSelectedPost(null));
-
+      dispatch(setSuggestedUsers([]));
+      dispatch(setUserProfile(null));
+      dispatch(setSelectedUser(null));
+      dispatch(setChatsOfSelectedUser([]));
       navigate("/login");
     } catch (error) {
       toast.error(error.message);

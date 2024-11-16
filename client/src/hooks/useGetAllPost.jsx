@@ -16,7 +16,7 @@ const useGetAllPost = () => {
         if (res.ok) {
           const data = await res.json();
           if (data.success) {
-            console.log(data.posts);
+            // console.log(data.posts);
             dispatch(setPosts(data.posts));
           }
         } else {

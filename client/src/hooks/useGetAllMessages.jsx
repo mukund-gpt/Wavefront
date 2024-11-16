@@ -1,8 +1,11 @@
+import { setChatsOfSelectedUser } from "@/redux/authSlice";
 import { baseUrl } from "@/utils/baseUrl";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const useGetAllMessages = ({ chatUserId }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchAllMessages = async () => {
       try {
@@ -16,9 +19,9 @@ const useGetAllMessages = ({ chatUserId }) => {
 
         const data = await response.json();
         if (data.success) {
-          //   dispatch(setUserProfile(data.user));
-          console.log(data.messages);
-          console.log(chatUserId);
+          // console.log(data.messages);
+          dispatch(setChatsOfSelectedUser(data.messages));
+          // console.log(chatUserId);
         } else {
           toast.error(data.message);
         }

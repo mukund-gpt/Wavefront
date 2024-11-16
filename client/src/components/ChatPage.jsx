@@ -1,16 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import LeftSideBar from "./LeftSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "@/redux/authSlice";
 import useGetAllMessages from "@/hooks/useGetAllMessages";
+import { baseUrl } from "@/utils/baseUrl";
+import { toast } from "react-toastify";
 
 const ChatPage = () => {
-  const { suggestedUsers, selectedUser } = useSelector((store) => store.auth);
+  const [text, setText] = useState("");
+  const { user, suggestedUsers, selectedUser, chatsOfSelectedUser } =
+    useSelector((store) => store.auth);
   const dispatch = useDispatch();
+
   const handleSelectedUser = (user) => {
     dispatch(setSelectedUser(user));
-
     // console.log(user);
+  };
+  // console.log(chatsOfSelectedUser);
+
+  const handleSendMessage = async () => {
+    if (!text.trim()) return;
+    // console.log(text);
+    try {
+      const res = await fetch(
+        `${baseUrl}/api/v1/message/send/${selectedUser?._id}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: text }),
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        // console.log(data);
+        toast.info(data.message);
+      } else {
+        const err = await res.json();
+        console.log(err);
+        toast.error(err.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+    setText("");
   };
   useGetAllMessages({ chatUserId: selectedUser?._id });
   return (
@@ -53,28 +89,52 @@ const ChatPage = () => {
               src={selectedUser?.image}
               className="w-10 h-10 rounded-full object-cover"
             />
-            {/* {console.log(selectedUser)} */}
 
             <span className="font-medium text-gray-700">
               {selectedUser?.username}
             </span>
           </div>
-          <div className="flex-1 overflow-y-auto">
-            <div className="chat chat-start">
-              <div className="chat-bubble chat-bubble-primary">Hi there!</div>
+          <div>
+            <div className="flex-1 overflow-y-auto">
+              {chatsOfSelectedUser && chatsOfSelectedUser.length > 0 ? (
+                chatsOfSelectedUser.map((chat) => {
+                  return (
+                    user && (
+                      <div
+                        key={chat?._id}
+                        className={`chat ${
+                          chat?.senderId === user._id
+                            ? "chat-end"
+                            : "chat-start"
+                        }`}
+                      >
+                        <div className="chat-bubble chat-bubble-primary">
+                          {chat.content}
+                        </div>
+                      </div>
+                    )
+                  );
+                })
+              ) : (
+                <p>No chats available</p>
+              )}
             </div>
-            <div className="chat chat-end">
-              <div className="chat-bubble chat-bubble-secondary">
-                Hello! How are you?
-              </div>
+            <div className="mt-4 flex bottom-0">
+              <input
+                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Type your message..."
+                className="input input-bordered w-full"
+              />
+              <button
+                onClick={handleSendMessage}
+                className="btn btn-circle btn-primary flex items-center justify-center"
+                aria-label="Send Message"
+              >
+                Send
+              </button>
             </div>
-          </div>
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Type your message..."
-              className="input input-bordered w-full"
-            />
           </div>
         </div>
       </div>
