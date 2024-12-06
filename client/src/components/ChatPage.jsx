@@ -69,7 +69,7 @@ const ChatPage = () => {
                   className="flex items-center gap-4 p-2 border-b border-gray-200 hover:bg-gray-100 rounded-lg"
                 >
                   <img
-                    src={user?.image}
+                    src={user?.profilePic}
                     className="w-10 h-10 rounded-full object-cover"
                   />
 
@@ -86,7 +86,7 @@ const ChatPage = () => {
         <div className="w-4/5 sm:w-3/5 md:w-2/5 bg-white shadow-md rounded-lg m-4 p-4 flex flex-col">
           <div className="flex items-center gap-4 p-2 border-b border-gray-200 hover:bg-gray-100 rounded-lg">
             <img
-              src={selectedUser?.image}
+              src={selectedUser?.profilePic}
               className="w-10 h-10 rounded-full object-cover"
             />
 

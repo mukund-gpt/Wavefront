@@ -83,15 +83,15 @@ const Profile = () => {
         {/* Profile Tabs */}
         <div className="flex gap-4 mb-6">
           <button className="text-xs sm:text-sm font-semibold text-gray-700 hover:text-blue-500">
-            {userProfile.posts.length}
+            {userProfile?.posts?.length}
             <span className="ml-0.5">Posts</span>
           </button>
           <button className="text-xs sm:text-sm font-semibold text-gray-700 hover:text-blue-500">
-            {userProfile.followers.length}{" "}
+            {userProfile?.followers?.length}{" "}
             <span className="ml-0.5">Followers</span>
           </button>
           <button className="text-xs sm:text-sm font-semibold text-gray-700 hover:text-blue-500">
-            {userProfile.following.length}{" "}
+            {userProfile?.following?.length}{" "}
             <span className="ml-0.5">Following</span>
           </button>
         </div>
@@ -119,7 +119,7 @@ const Profile = () => {
           </span>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {displayedPosts.map((post) => (
+          {displayedPosts?.map((post) => (
             <div key={post?._id} className="relative group">
               <img
                 src={post?.image}

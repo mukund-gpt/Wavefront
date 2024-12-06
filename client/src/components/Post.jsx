@@ -14,9 +14,9 @@ const Post = ({ post }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const [openComment, setOpenComment] = useState(false);
-  const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
-  const [postLikeCount, setPostLikeCount] = useState(post.likes.length);
-  const [comment, setComment] = useState(post.comments);
+  const [liked, setLiked] = useState(post?.likes.includes(user?._id) || false);
+  const [postLikeCount, setPostLikeCount] = useState(post?.likes.length);
+  const [comment, setComment] = useState(post?.comments);
   const getComment = (e) => {
     const inputText = e.target.value;
     if (inputText.trim()) {
@@ -185,7 +185,7 @@ const Post = ({ post }) => {
               {post?.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
-              {comment.length > 0 && (
+              {comment?.length > 0 && (
                 <div
                   onClick={() => {
                     dispatch(setSelectedPost(post)),

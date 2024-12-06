@@ -90,11 +90,11 @@ const LeftSideBar = () => {
   return (
     <>
       <div className="fixed top-0 z-10 left-0 bg-white h-full w-60">
-        <div className="flex flex-col">
+        <div className="flex flex-col h-full">
           <h1 className="m-5 p-4 font-bold text-3xl text-orange-500">
             Wavefront
           </h1>
-          <div className="">
+          <div className="flex-1 overflow-y-auto">
             {sideBarItems.map((item, index) => {
               return (
                 <div
