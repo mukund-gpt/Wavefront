@@ -4,8 +4,15 @@ import RightSideBar from "@/components/RightSideBar";
 import useGetAllPost from "@/hooks/useGetAllPost";
 import useGetSuggestedUsers from "@/hooks/useGetSuggestedUsers";
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const { user } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  if (!user) {
+    navigate("/login");
+  }
   useGetAllPost();
   useGetSuggestedUsers();
   return (
