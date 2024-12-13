@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const chatSlice = createSlice({
-  name: "socket",
+  name: "chat",
   initialState: {
     onlineUsers: [],
     messages: [],

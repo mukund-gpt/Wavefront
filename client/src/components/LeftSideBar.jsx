@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAuthUser,
-  setChatsOfSelectedUser,
   setSelectedUser,
   setSuggestedUsers,
   setUserProfile,
@@ -67,7 +66,6 @@ const LeftSideBar = () => {
       dispatch(setSuggestedUsers([]));
       dispatch(setUserProfile(null));
       dispatch(setSelectedUser(null));
-      dispatch(setChatsOfSelectedUser([]));
       navigate("/login");
     } catch (error) {
       toast.error(error.message);

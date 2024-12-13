@@ -9,6 +9,12 @@ export const sendMessage = async (req, res) => {
     const { message } = req.body;
     console.log(senderId, receiverId, message);
 
+    if (!senderId || !receiverId) {
+      return res
+        .status(400)
+        .json({ message: "Sender or Receiver ID is undefined" });
+    }
+
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
@@ -38,7 +44,11 @@ export const sendMessage = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "Message sent successfully", success: true });
+      .json({
+        message: "Message sent successfully",
+        newMessage,
+        success: true,
+      });
   } catch (error) {
     console.log(error);
   }
@@ -48,6 +58,12 @@ export const getMessage = async (req, res) => {
   try {
     const senderId = req.id;
     const receiverId = req.params.id;
+
+    if (!senderId || !receiverId) {
+      return res
+        .status(400)
+        .json({ message: "Sender or Receiver ID is undefined" });
+    }
 
     const conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
