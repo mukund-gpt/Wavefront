@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftSideBar from "./LeftSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "@/redux/authSlice";
 import useGetAllMessages from "@/hooks/useGetAllMessages";
 import { baseUrl } from "@/utils/baseUrl";
 import { toast } from "react-toastify";
+import { setMessages } from "@/redux/chatSlice";
 
 const ChatPage = () => {
   const [text, setText] = useState("");
-  const { onlineUsers } = useSelector((store) => store.chat);
+  const { onlineUsers, messages } = useSelector((store) => store.chat);
   const { user, suggestedUsers, selectedUser, chatsOfSelectedUser } =
     useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -36,7 +37,8 @@ const ChatPage = () => {
       );
       if (res.ok) {
         const data = await res.json();
-        // console.log(data);
+        console.log(data);
+        // dispatch(setMessages([...messages, text]));
         toast.info(data.message);
       } else {
         const err = await res.json();
@@ -46,9 +48,17 @@ const ChatPage = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setText("");
     }
-    setText("");
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedUser(null));
+    };
+  }, []);
+
   useGetAllMessages({ chatUserId: selectedUser?._id });
   return (
     <div className="flex h-screen w-full bg-gray-100">

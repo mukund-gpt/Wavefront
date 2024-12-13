@@ -4,13 +4,17 @@ const chatSlice = createSlice({
   name: "socket",
   initialState: {
     onlineUsers: [],
+    messages: [],
   },
   reducers: {
     setOnlineUsers: (state, action) => {
       state.onlineUsers = action.payload;
     },
+    setMessages: (state, action) => {
+      state.messages = action.payload;
+    },
   },
 });
 
-export const { setOnlineUsers } = chatSlice.actions;
+export const { setOnlineUsers, setMessages } = chatSlice.actions;
 export default chatSlice.reducer;
