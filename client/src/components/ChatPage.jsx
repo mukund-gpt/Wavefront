@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import LeftSideBar from "./LeftSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "@/redux/authSlice";
-import useGetAllMessages from "@/hooks/useGetAllMessages";
 import ChatSection from "./ChatSection";
 
 const ChatPage = () => {
@@ -21,7 +20,6 @@ const ChatPage = () => {
     };
   }, []);
 
-  useGetAllMessages();
   return (
     <div className="flex h-screen w-full bg-gray-100">
       <div className="w-1/5 bg-white shadow-lg hidden md:block">

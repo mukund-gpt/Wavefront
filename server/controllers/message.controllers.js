@@ -35,20 +35,18 @@ export const sendMessage = async (req, res) => {
     if (newMessage) conversation.messages.push(newMessage._id);
     await Promise.all([conversation.save(), newMessage.save()]);
 
-    //implement socket io
-    // const receiverSocketId = getReceiverSocketId(receiverId);
-    // console.log(receiverSocketId);
-    // if (receiverSocketId) {
-    //   io.to(receiverSocketId).emit("newMessage", newMessage);
-    // }
+    // implement socket io
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    console.log("Receiver Socket id", receiverSocketId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
-    return res
-      .status(201)
-      .json({
-        message: "Message sent successfully",
-        newMessage,
-        success: true,
-      });
+    return res.status(201).json({
+      message: "Message sent successfully",
+      newMessage,
+      success: true,
+    });
   } catch (error) {
     console.log(error);
   }

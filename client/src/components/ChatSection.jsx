@@ -1,3 +1,5 @@
+import useGetAllMessages from "@/hooks/useGetAllMessages";
+import useGetRTM from "@/hooks/useGetRTM";
 import { setMessages } from "@/redux/chatSlice";
 import { baseUrl } from "@/utils/baseUrl";
 import { useEffect, useRef, useState } from "react";
@@ -5,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const ChatSection = () => {
+  useGetAllMessages();
+  useGetRTM();
   const { messages: chatsOfSelectedUser } = useSelector((store) => store.chat);
   const { user, selectedUser } = useSelector((store) => store.auth);
   const [text, setText] = useState("");
