@@ -21,14 +21,20 @@ import {
 } from "@/redux/authSlice";
 import CreatePost from "./CreatePost";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
+import Notification from "./Notification";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [openNotification, setOpenNotification] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
+  const { likeNotification } = useSelector(
+    (store) => store.realTimeNotification
+  );
+
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
     { icon: <SearchIcon />, text: "Search" },
@@ -83,6 +89,8 @@ const LeftSideBar = () => {
       navigate("/chat");
     } else if (textType === "Home") {
       navigate("/");
+    } else if (textType === "Notifications") {
+      setOpenNotification(true);
     }
   };
   return (
@@ -108,6 +116,7 @@ const LeftSideBar = () => {
           </div>
         </div>
         <CreatePost open={open} setOpen={setOpen} />
+        <Notification open={openNotification} setOpen={setOpenNotification} />
       </div>
     </>
   );

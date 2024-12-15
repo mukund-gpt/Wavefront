@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 import { baseUrl } from "./utils/baseUrl";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
+import { setLikeNotification } from "./redux/rtnSlice";
 
 const App = () => {
   const { user } = useSelector((store) => store.auth);
@@ -24,12 +25,22 @@ const App = () => {
         },
         transports: ["websocket"],
       });
+      console.log(socketio);
+
       dispatch(setSocket(socketio));
+
+      //Listen all the events
       socketio.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
 
+      socketio.on("notification", (notification) => {
+        dispatch(setLikeNotification(notification));
+      });
+
       return () => {
+        socketio.off("getOnlineUsers");
+        socketio.off("notification");
         socketio.close();
         dispatch(setSocket(null));
       };
