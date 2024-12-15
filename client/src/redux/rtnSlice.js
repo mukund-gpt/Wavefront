@@ -12,8 +12,8 @@ const rtnSlice = createSlice({
       } else if (action.payload.type === "dislike") {
         state.likeNotification = state.likeNotification.filter(
           (item) =>
-            (item.userId && item.postId) !==
-            (action.payload.userId && action.payload.postId)
+            item.userId !== action.payload.userId ||
+            item.postId !== action.payload.postId
         );
       }
     },
