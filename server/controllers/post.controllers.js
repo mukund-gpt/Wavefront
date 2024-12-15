@@ -121,6 +121,7 @@ export const likePost = async (req, res) => {
         userId: likedUser,
         userDetails: user,
         postId,
+        post: post.image,
         message: "your post was liked",
       };
       const postOwnerSocketId = getReceiverSocketId(postOwnerId);
@@ -156,6 +157,7 @@ export const dislikePost = async (req, res) => {
         userId: likedUser,
         userDetails: user,
         postId,
+        post: post.image,
         message: "your post was liked",
       };
       const postOwnerSocketId = getReceiverSocketId(postOwnerId);

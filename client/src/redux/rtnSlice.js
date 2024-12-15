@@ -11,7 +11,9 @@ const rtnSlice = createSlice({
         state.likeNotification.push(action.payload);
       } else if (action.payload.type === "dislike") {
         state.likeNotification = state.likeNotification.filter(
-          (item) => item.userId !== action.payload.userId
+          (item) =>
+            (item.userId && item.postId) !==
+            (action.payload.userId && action.payload.postId)
         );
       }
     },
