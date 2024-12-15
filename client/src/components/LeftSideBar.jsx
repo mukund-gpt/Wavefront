@@ -9,23 +9,16 @@ import {
   SearchIcon,
   WavesIcon,
 } from "@/assests/SVG/LeftSideBarIcons";
-import { baseUrl } from "@/utils/baseUrl";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setAuthUser,
-  setSelectedUser,
-  setSuggestedUsers,
-  setUserProfile,
-} from "@/redux/authSlice";
 import CreatePost from "./CreatePost";
-import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import Notification from "./Notification";
+import useLogout from "@/hooks/useLogout";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const logout = useLogout();
 
   const [open, setOpen] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
@@ -56,31 +49,9 @@ const LeftSideBar = () => {
     { icon: <LogoutIcon />, text: "Logout" },
   ];
 
-  const logoutHandler = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/api/v1/user/logout`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-      const data = await res.json();
-      toast.success(data.message);
-
-      dispatch(setAuthUser(null));
-      dispatch(setPosts([]));
-      dispatch(setSelectedPost(null));
-      dispatch(setSuggestedUsers([]));
-      dispatch(setUserProfile(null));
-      dispatch(setSelectedUser(null));
-      navigate("/login");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   const sideBarHandler = (textType) => {
     if (textType === "Logout") {
-      logoutHandler();
+      logout();
     } else if (textType === "Create Post") {
       setOpen(true);
     } else if (textType === "Profile") {
