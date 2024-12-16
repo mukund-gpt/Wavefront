@@ -282,6 +282,7 @@ export const bookmarkPost = async (req, res) => {
       return res.status(200).json({
         type: "unsaved",
         success: true,
+        post,
         message: "post removed from bookmarks",
       });
     } else {
@@ -291,6 +292,7 @@ export const bookmarkPost = async (req, res) => {
       return res.status(200).json({
         type: "saved",
         success: true,
+        post,
         message: "post added to bookmarks",
       });
     }

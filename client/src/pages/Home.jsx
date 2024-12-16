@@ -3,6 +3,7 @@ import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
 import useGetAllPost from "@/hooks/useGetAllPost";
 import useGetSuggestedUsers from "@/hooks/useGetSuggestedUsers";
+import useGetUserProfile from "@/hooks/useGetUserProfile";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ const Home = () => {
   if (!user) {
     navigate("/login");
   }
+  useGetUserProfile();
   useGetAllPost();
   useGetSuggestedUsers();
   return (

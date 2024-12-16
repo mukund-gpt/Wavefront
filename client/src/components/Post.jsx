@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { baseUrl } from "@/utils/baseUrl";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
+import BookmarkIcon from "./BookmarkIcon";
 
 const Post = ({ post }) => {
   const { user } = useSelector((store) => store.auth);
@@ -112,6 +113,7 @@ const Post = ({ post }) => {
       console.log(err);
     }
   };
+
   return (
     <>
       <div className="my-6 w-full max-w-sm mx-auto">
@@ -175,7 +177,8 @@ const Post = ({ post }) => {
               />
               <IoIosSend className="cursor-pointer size-7" />
             </div>
-            <FaRegBookmark className="cursor-pointer size-6" />
+
+            <BookmarkIcon post={post} />
           </div>
 
           <div className="text-black">
