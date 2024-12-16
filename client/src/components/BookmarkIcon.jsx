@@ -10,7 +10,7 @@ const BookmarkIcon = ({ post }) => {
   const dispatch = useDispatch();
 
   const isBookmarked = (post) => {
-    return bookmarks?.some((bookmark) => bookmark._id === post._id);
+    return bookmarks?.some((bookmark) => bookmark?._id === post?._id);
   };
 
   const bookmarkHandler = async () => {

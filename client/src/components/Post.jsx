@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaRegHeart, FaCommentAlt, FaRegBookmark } from "react-icons/fa";
+import { FaRegHeart, FaCommentAlt } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import CommentDialog from "./CommentDialog";
 import { useDispatch, useSelector } from "react-redux";
@@ -139,12 +139,12 @@ const Post = ({ post }) => {
               <li>
                 <a>Unfollow</a>
               </li>
-              <li>
-                <a>Add to favourite</a>
-              </li>
 
               {user?._id === post?.author?._id && (
-                <li className="text-red" onClick={deletePostHandler}>
+                <li
+                  className="text-red bg-red-400 rounded-sm"
+                  onClick={deletePostHandler}
+                >
                   <a>Delete</a>
                 </li>
               )}

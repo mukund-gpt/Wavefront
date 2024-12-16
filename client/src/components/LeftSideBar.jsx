@@ -1,38 +1,28 @@
 import React, { useState } from "react";
 import {
-  ExploreIcon,
   HomeIcon,
   LogoutIcon,
   MessagesIcon,
   NotificationIcon,
   PlusIcon,
-  SearchIcon,
-  WavesIcon,
 } from "@/assests/SVG/LeftSideBarIcons";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CreatePost from "./CreatePost";
 import Notification from "./Notification";
 import useLogout from "@/hooks/useLogout";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const logout = useLogout();
 
   const [open, setOpen] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
-  const { likeNotification } = useSelector(
-    (store) => store.realTimeNotification
-  );
 
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
-    { icon: <SearchIcon />, text: "Search" },
-    { icon: <ExploreIcon />, text: "Explore" },
-    { icon: <WavesIcon />, text: "Waves" },
     { icon: <MessagesIcon />, text: "Messages" },
     { icon: <NotificationIcon />, text: "Notifications" },
     { icon: <PlusIcon />, text: "Create Post" },
@@ -68,7 +58,7 @@ const LeftSideBar = () => {
     <>
       <div className="fixed top-0 z-10 left-0 bg-white h-full w-60">
         <div className="flex flex-col h-full">
-          <h1 className="m-5 p-4 font-bold text-3xl text-orange-500">
+          <h1 className="m-5 p-4 font-bold text-3xl text-orange-500 cursor-pointer">
             Wavefront
           </h1>
           <div className="flex-1 overflow-y-auto">

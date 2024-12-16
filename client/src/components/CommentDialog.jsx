@@ -12,17 +12,26 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
   const commentsEndRef = useRef(null);
 
   const [text, setText] = useState("");
-  const [comment, setComment] = useState(selectedPost?.comments);
+  const [comment, setComment] = useState([]);
+
+  useEffect(() => {
+    if (selectedPost) {
+      setComment(selectedPost?.comments || []);
+    }
+  }, [selectedPost]);
 
   const changeEventHandler = (e) => {
-    const inputText = e.target.value;
-    if (inputText.trim()) {
-      setText(inputText);
-      // console.log(inputText);
-    }
+    setText(e.target.value);
   };
 
   const commentHandler = async () => {
+    if (!selectedPost?._id) {
+      toast.error("No post selected to comment on.");
+      return;
+    }
+    if (!text.trim()) {
+      return;
+    }
     try {
       const res = await fetch(
         `${baseUrl}/api/v1/post/${selectedPost?._id}/comment`,
@@ -72,11 +81,6 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
     }
   }, [openComment]);
 
-  useEffect(() => {
-    // Scroll to the bottom when comments change
-    commentsEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [comment]);
-
   return (
     <>
       <input type="checkbox" id="commentbox" className="modal-toggle" />
@@ -109,47 +113,36 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                     </span>
                   </div>
                 </div>
-
-                <details className="dropdown dropdown-end">
-                  <summary className="btn m-1 bg-transparent hover:bg-transparent border-none text-black">
-                    :
-                  </summary>
-                  <ul className="menu dropdown-content font-bold bg-white text-black rounded-box z-[1] w-40 p-2">
-                    <li>
-                      <a>Unfollow</a>
-                    </li>
-                    <li>
-                      <a>Add to favorite</a>
-                    </li>
-                    <li>
-                      <a>Cancel</a>
-                    </li>
-                  </ul>
-                </details>
               </div>
 
               {/* Comments */}
-              <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 p-4">
-                {comment?.map((comment) => (
-                  <Comment key={comment._id} comment={comment} />
-                ))}
-                <div ref={commentsEndRef} />
+              <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 px-2 py-1 scrollbar-hide">
+                {comment
+                  ?.slice()
+                  .reverse()
+                  .map((comment) => (
+                    <Comment key={comment._id} comment={comment} />
+                  ))}
               </div>
 
               {/* Add comment input */}
-              <div className="flex items-center gap-2 p-3">
+              <div className="flex items-center gap-2 p-2 bg-gray-100 rounded-md shadow-sm">
                 <input
                   type="text"
                   value={text}
                   onChange={changeEventHandler}
                   onKeyDown={handleKeys}
-                  className="w-full outline-none border-gray-300 rounded py-1 px-2"
+                  className="w-full outline-none border border-gray-300 rounded-md py-2 px-3 text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Add a comment..."
                 />
                 <button
                   onClick={commentHandler}
                   disabled={!text.trim()}
-                  className="btn btn-success text-white"
+                  className={`btn btn-success text-white px-4 py-2 rounded-md ${
+                    !text.trim()
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-600"
+                  }`}
                 >
                   Send
                 </button>
