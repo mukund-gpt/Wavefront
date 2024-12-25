@@ -58,7 +58,7 @@ const ChatSection = () => {
   }, [chatsOfSelectedUser]); // Dependency array ensures it runs when chats change
 
   return (
-    <div className="w-4/5 sm:w-3/5 md:w-2/5 bg-white shadow-md rounded-lg m-4 p-4 flex flex-col h-full">
+    <div className="w-4/5 sm:w-3/5 md:w-2/5 bg-white m-4 p-4 flex flex-col h-full">
       {selectedUser ? (
         <>
           {/* User Header */}

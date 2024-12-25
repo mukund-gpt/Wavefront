@@ -1,38 +1,38 @@
 import Feed from "@/components/Feed";
-import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
 import useGetAllPost from "@/hooks/useGetAllPost";
 import useGetSuggestedUsers from "@/hooks/useGetSuggestedUsers";
 import useGetUserProfile from "@/hooks/useGetUserProfile";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
-  if (!user) {
-    navigate("/login");
-  }
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
   useGetUserProfile();
   useGetAllPost();
   useGetSuggestedUsers();
-  return (
-    <>
-      <div className="flex">
-        <div className=" md:flex sm:w-2/6 md:w-1/6">
-          <LeftSideBar />
-        </div>
 
-        <div className="flex-grow sm:w-4/6 md:w-3/6">
+  return (
+    <div className="h-[90vh]">
+      <div className="flex flex-col max-h-[90vh] lg:flex-row">
+        <div className="flex-grow w-full overflow-auto lg:w-4/6 px-4 py-2 max-h-[90vh] scrollbar-hide">
           <Feed />
         </div>
 
-        <div className="hidden lg:flex md:w-2/6">
+        <div className="hidden lg:flex w-2/6 max-h-[90vh] overflow-auto">
           <RightSideBar />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -6,8 +6,8 @@ const RightSideBar = () => {
   const { user } = useSelector((store) => store.auth);
 
   return (
-    <div className="flex justify-center items-start w-full mt-4">
-      <div className="bg-white p-4 w-4/5 max-w-md rounded-lg shadow-lg">
+    <div className="flex justify-center items-start w-full">
+      <div className="bg-white p-4 max-w-md rounded-lg">
         {/* User Profile Section */}
         <div className="flex items-center gap-3 mb-4">
           <div className="avatar flex items-center p-2">

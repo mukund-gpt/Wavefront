@@ -60,7 +60,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 shadow-lg rounded-md mt-10">
+    <div className="ml-1/6 w-5/6 mx-auto p-6 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 rounded-md mt-2">
       <h1 className="text-3xl font-extrabold mb-8 text-center text-purple-700">
         Edit Profile
       </h1>
@@ -131,13 +131,6 @@ const EditProfile = () => {
 
         {/* Submit Button */}
         <div className="text-center">
-          {/* <button
-            type="submit"
-            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-purple-300"
-          >
-            Save Changes
-          </button> */}
-
           <button
             type="submit"
             className={`px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-purple-300 flex items-center justify-center ${

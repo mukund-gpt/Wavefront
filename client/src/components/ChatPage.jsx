@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import LeftSideBar from "./LeftSideBar";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "@/redux/authSlice";
 import ChatSection from "./ChatSection";
@@ -21,15 +20,11 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <div className="flex h-screen w-full bg-gray-100">
-      <div className="w-1/5 bg-white shadow-lg hidden md:block">
-        <LeftSideBar />
-      </div>
-
+    <div className="w-full flex h-[90vh]">
       {/* Main Content */}
       <div className="flex-1 flex justify-center">
         {/* Suggested Users Section */}
-        <div className="md:w-2/5 sm:w-2/5 bg-white shadow-md rounded-lg m-4 p-4 hidden sm:block">
+        <div className="md:w-2/5 sm:w-2/5 bg-white m-4 p-4 hidden sm:block">
           <h2 className="text-lg font-bold mb-4 text-center">Friends</h2>
           <div className="menu bg-base-100 w-full rounded-box">
             <div>

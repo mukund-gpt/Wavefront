@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import SignUp from "./pages/Signup";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
 import ChatPage from "./components/ChatPage";
+import Layout from "./components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { baseUrl } from "./utils/baseUrl";
@@ -17,19 +18,18 @@ const App = () => {
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { socket } = useSelector((store) => store.socketio);
+
   useEffect(() => {
     if (user) {
       const socketio = io(`${baseUrl}`, {
-        query: {
-          userId: user?._id,
-        },
+        query: { userId: user?._id },
         transports: ["websocket"],
       });
       console.log(socketio);
 
       dispatch(setSocket(socketio));
 
-      //Listen all the events
+      // Listen for socket events
       socketio.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers));
       });
@@ -38,6 +38,7 @@ const App = () => {
         dispatch(setLikeNotification(notification));
       });
 
+      // Cleanup on unmount or user logout
       return () => {
         socketio.off("getOnlineUsers");
         socketio.off("notification");
@@ -51,16 +52,27 @@ const App = () => {
   }, [user, dispatch]);
 
   return (
-    <>
-      <Routes>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+
+      {/* Protected Routes (wrapped in Layout) */}
+      <Route
+        path="/"
+        element={user ? <Layout /> : <Navigate to="/login" replace />}
+      >
+        <Route index element={<Home />} />
+        <Route path="profile/edit" element={<EditProfile />} />
+        <Route path="profile/:id" element={<Profile />} />
+        <Route path="chat" element={<ChatPage />} />
+      </Route>
+
+      <Route
+        path="*"
+        element={<Navigate to={user ? "/" : "/login"} replace />}
+      />
+    </Routes>
   );
 };
 
