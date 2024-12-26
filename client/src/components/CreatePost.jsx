@@ -44,11 +44,6 @@ const CreatePost = ({ open, setOpen }) => {
     formData.append("caption", caption);
     formData.append("image", file);
 
-    // Debugging FormData
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
-
     try {
       setLoading(true);
       setCaption("");
