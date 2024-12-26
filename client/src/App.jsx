@@ -27,7 +27,7 @@ const App = () => {
       });
       console.log(socketio);
 
-      dispatch(setSocket(socketio));
+      // dispatch(setSocket(socketio));
 
       // Listen for socket events
       socketio.on("getOnlineUsers", (onlineUsers) => {

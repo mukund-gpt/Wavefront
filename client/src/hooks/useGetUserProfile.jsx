@@ -1,13 +1,16 @@
 import { setUserProfile } from "@/redux/authSlice";
 import { baseUrl } from "@/utils/baseUrl";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const useGetUserProfile = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { user } = useSelector((store) => store.auth);
+  const id = useParams().id || user?._id;
+  // console.log(id);
+
   useEffect(() => {
     if (id) {
       const fetchUserProfile = async () => {

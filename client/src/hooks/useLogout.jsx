@@ -9,6 +9,7 @@ import {
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import { toast } from "react-toastify";
 import { baseUrl } from "@/utils/baseUrl";
+import { setMessages, setOnlineUsers } from "@/redux/chatSlice";
 
 const useLogout = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ const useLogout = () => {
       dispatch(setSuggestedUsers([]));
       dispatch(setUserProfile(null));
       dispatch(setSelectedUser(null));
+      dispatch(setOnlineUsers([]));
+      dispatch(setMessages([]));
 
       // Navigate to login page
       navigate("/login");

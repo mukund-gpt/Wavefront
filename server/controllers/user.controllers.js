@@ -1,5 +1,4 @@
 import { User } from "../models/user.model.js";
-import { Post } from "../models/post.model.js";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
@@ -17,7 +16,9 @@ export const getProfile = async (req, res) => {
     const user = await User.findById(userId)
       .select("-password")
       .populate({ path: "posts", options: { sort: { createdAt: -1 } } })
-      .populate("bookmarks");
+      .populate("bookmarks")
+      .populate("followers", "username profilePic")
+      .populate("following", "username profilePic");
 
     res.status(200).json({
       user,

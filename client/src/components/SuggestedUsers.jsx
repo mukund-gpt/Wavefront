@@ -1,54 +1,52 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useFollowUnfollow from "@/hooks/useFollowOrUnfollow";
 
 const SuggestedUsers = () => {
   const navigate = useNavigate();
   const { suggestedUsers } = useSelector((store) => store.auth);
+  const { isFollowing, handleFollowUnfollow } = useFollowUnfollow();
 
-  const handleFollowUnfollow = () => {
-    alert("follow click");
-  };
-
-  const navigateToProfile = (id) => {
-    navigate(`/profile/${id}`);
-  };
+  const navigateToProfile = (id) => navigate(`/profile/${id}`);
 
   return (
-    <div className="w-full p-4 bg-gray-100 rounded-lg shadow-md">
+    <div className="w-full p-4">
       <div className="text-base text-center font-bold">Suggested Users</div>
 
-      <div className="mt-4 space-y-4">
+      <div className="mt-2 space-y-4">
         {suggestedUsers?.map((user) => (
           <div
             key={user._id}
-            className="flex items-center p-3 bg-white rounded-lg shadow-sm w-full"
+            className="flex items-center p-2 bg-white rounded shadow-sm w-full"
           >
-            <div className="w-12 h-12 avatar rounded-full overflow-hidden">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
               <img
                 src={user?.profilePic}
                 onClick={() => navigateToProfile(user?._id)}
-                alt="User Avatar"
-                className="object-cover w-full h-full"
+                alt={`${user?.username}'s avatar`}
+                className="object-cover w-full h-full cursor-pointer"
               />
             </div>
             <div className="ml-3">
               <div className="flex items-center gap-2">
                 <span
                   onClick={() => navigateToProfile(user?._id)}
-                  className="text-base font-semibold text-black"
+                  className="text-base font-semibold text-black cursor-pointer"
                 >
                   {user?.username}
                 </span>
-                {/* Follow Button */}
                 <button
-                  onClick={handleFollowUnfollow}
-                  className="text-sm font-bold text-blue-500 hover:text-blue-700 cursor-pointer"
+                  onClick={() => handleFollowUnfollow(user)}
+                  className={`text-sm font-bold ${
+                    isFollowing(user)
+                      ? "text-red-500 hover:text-red-700"
+                      : "text-blue-500 hover:text-blue-700"
+                  } cursor-pointer`}
                 >
-                  Follow
+                  {isFollowing(user) ? "Unfollow" : "Follow"}
                 </button>
               </div>
-              <h1>bio here</h1>
               {user?.bio && (
                 <div className="text-sm text-gray-500">{user?.bio}</div>
               )}
