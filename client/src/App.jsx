@@ -13,6 +13,8 @@ import { baseUrl } from "./utils/baseUrl";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { setLikeNotification } from "./redux/rtnSlice";
+import ForgetPassword from "./components/ForgetPassword";
+import ResetPassword from "./components/ResetPassword";
 
 const App = () => {
   const { user } = useSelector((store) => store.auth);
@@ -56,6 +58,15 @@ const App = () => {
       {/* Public Routes */}
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
+
+      <Route
+        path="/forget-password"
+        element={!user ? <ForgetPassword /> : <Navigate to="/" />}
+      />
+      <Route
+        path="/reset-password/:token"
+        element={!user ? <ResetPassword /> : <Navigate to="/" />}
+      />
 
       {/* Protected Routes (wrapped in Layout) */}
       <Route

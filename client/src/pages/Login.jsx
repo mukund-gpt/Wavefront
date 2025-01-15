@@ -119,7 +119,10 @@ const Login = () => {
               <GoogleSvg />
               Login with Google
             </button>
-            <div className="mt-10 text-sm border-b border-gray-500 py-5 playfair tooltip text-black">
+            <div
+              className="mt-10 text-sm border-b border-gray-500 py-5 playfair tooltip text-black font-bold cursor-pointer hover:underline"
+              onClick={() => navigate("/forget-password")}
+            >
               Forget password?
             </div>
 

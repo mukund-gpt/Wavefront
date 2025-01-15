@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Post } from "../models/post.model.js";
+import nodemailer from "nodemailer";
 
 export const register = async (req, res) => {
   try {
@@ -125,5 +126,68 @@ export const logout = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      secure: true,
+      port: 465,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({ message: "User not found", success: false });
+    }
+    const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Password Reset Request",
+      text: `To reset your password, click the following link: ${resetUrl}`,
+    };
+    await transporter.sendMail(mailOptions);
+    return res.json({
+      message: "Password reset link sent to your email",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message, success: false });
+  }
+};
+export const verifyToken = async (req, res) => {
+  try {
+    const { password, token } = req.body;
+    if (!token || !password) {
+      return res.json({
+        message: "token and password not found🤦‍♂️",
+        success: false,
+      });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.json({ message: "User not found" });
+    }
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    // Update the user's password
+    user.password = hashedPassword;
+    await user.save();
+    res
+      .status(200)
+      .json({ message: "Password reset successfully", success: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message, success: false });
   }
 };
