@@ -7,8 +7,8 @@ const Posts = () => {
   return (
     <>
       <div className="w-full">
-        {posts.map((post) => (
-          <Post key={post?._id} post={post} />
+        {posts.map((post, index) => (
+          <Post key={index} post={post} />
         ))}
       </div>
     </>

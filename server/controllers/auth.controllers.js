@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Post } from "../models/post.model.js";
 import nodemailer from "nodemailer";
+import { OAuth2Client } from "google-auth-library";
 
 export const register = async (req, res) => {
   try {
@@ -189,5 +190,57 @@ export const verifyToken = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+export const googleAuth = async (req, res) => {
+  const { google_token } = req.body;
+  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: google_token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, picture } = payload;
+    // console.log("User verified:", payload);
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        username: email.split("@")[0],
+        email,
+        profilePic: picture,
+      });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    //populate each post
+    const populatedPosts = await Promise.all(
+      user.posts.map(async (postId) => {
+        const post = await Post.findById(postId);
+        if (post.author.equals(user._id)) return post;
+        return null;
+      })
+    );
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1 * 24 * 3600 * 1000,
+      })
+      .json({
+        message: `Welcome ${user.username}`,
+        success: true,
+        user,
+        posts: populatedPosts,
+      });
+  } catch (error) {
+    console.error("Token verification error:", error);
+    res.status(400).json({ message: "Invalid token" });
   }
 };

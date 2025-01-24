@@ -14,12 +14,10 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
-      unique: true,
     },
     profilePic: {
       type: String,
-      default: "",
+      default: "https://avatar.iran.liara.run/public",
     },
     bio: {
       type: String,

@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseUrl } from "@/utils/baseUrl";
-import GoogleSvg from "@/assests/SVG/GoogleSvg";
 import OpenEye from "@/assests/SVG/OpenEye";
 import CloseEye from "@/assests/SVG/CloseEye";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -113,14 +113,10 @@ const Login = () => {
             </form>
 
             <br />
-            <hr />
+            <GoogleLoginButton />
 
-            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-black font-medium">
-              <GoogleSvg />
-              Login with Google
-            </button>
             <div
-              className="mt-10 text-sm border-b border-gray-500 py-5 playfair tooltip text-black font-bold cursor-pointer hover:underline"
+              className="mt-10 text-sm  text-black font-bold cursor-pointer hover:underline"
               onClick={() => navigate("/forget-password")}
             >
               Forget password?
