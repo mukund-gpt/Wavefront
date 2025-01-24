@@ -45,7 +45,8 @@ export const register = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
         maxAge: 1 * 24 * 3600 * 1000,
       })
       .json({
@@ -100,7 +101,8 @@ export const login = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
         maxAge: 1 * 24 * 3600 * 1000,
       })
       .json({
@@ -230,7 +232,8 @@ export const googleAuth = async (req, res) => {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
         maxAge: 1 * 24 * 3600 * 1000,
       })
       .json({
