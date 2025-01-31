@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetUserProfile from "@/hooks/useGetUserProfile";
+import { setSelectedUser } from "@/redux/authSlice";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userProfile, user } = useSelector((store) => store.auth);
 
   const [activeTab, setActiveTab] = useState("posts");
@@ -19,18 +22,15 @@ const Profile = () => {
   };
 
   const handleSendMessage = () => {
-    alert("message");
-  };
-
-  const handleEditProfile = () => {
-    alert("edit profile");
+    dispatch(setSelectedUser(userProfile));
+    navigate("/chat");
   };
 
   useGetUserProfile();
 
   return (
-    <div className="ml-1/6 min-h-screen">
-      <div className="w-5/6 mx-auto bg-white p-4 mt-2">
+    <div className="ml-1/6 min-h-screen min-w-[350px]">
+      <div className="w-full sm:w-5/6 mx-auto bg-white p-2 sm:p-4 sm:pt-8">
         {/* Profile Header */}
         <div className="flex items-center gap-4 mb-6">
           <div className="w-24 h-24 rounded-full overflow-hidden">

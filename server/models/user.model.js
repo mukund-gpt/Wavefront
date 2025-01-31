@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema(
     },
     profilePic: {
       type: String,
-      default: "https://avatar.iran.liara.run/public",
+      default:
+        "https://res.cloudinary.com/dk7sjwqoi/image/upload/v1738349531/default_kfjf2i.jpg",
     },
     bio: {
       type: String,

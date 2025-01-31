@@ -72,7 +72,9 @@ const LeftSideBar = () => {
                   key={index}
                   onClick={() => sideBarHandler(item.text)}
                 >
-                  {item.icon}
+                  <span className="flex items-center justify-center">
+                    {item.icon}
+                  </span>
                   <span className="ml-4 text-secondary font-bold">
                     {item.text}
                   </span>

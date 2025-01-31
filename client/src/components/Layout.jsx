@@ -11,7 +11,7 @@ const Layout = () => {
       </div>
 
       {/* Dynamic route content */}
-      <div className="w-full md:ml-1/6 md:max-w-5/6 flex-grow">
+      <div className="w-full md:ml-1/6 md:max-w-4/6 flex-grow">
         <Outlet />
       </div>
     </div>

@@ -13,19 +13,13 @@ const ChatPage = () => {
     // console.log(user);
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(setSelectedUser(null));
-    };
-  }, []);
-
   return (
-    <div className="w-full flex h-[90vh]">
+    <div className="w-full flex h-[100vh]">
       {/* Main Content */}
-      <div className="flex-1 flex justify-center">
+      <div className="flex-1 flex justify-end">
         {/* Suggested Users Section */}
-        <div className="md:w-2/5 sm:w-2/5 bg-white m-4 p-4 hidden sm:block">
-          <h2 className="text-lg font-bold mb-4 text-center">Friends</h2>
+        <div className="md:w-2/5 sm:w-2/5 bg-white p-4 sm:p-6 hidden sm:block">
+          <h2 className="text-lg font-bold p-4 text-center">Friends</h2>
           <div className="menu bg-base-100 w-full rounded-box">
             <div>
               {suggestedUsers?.map((user) => {

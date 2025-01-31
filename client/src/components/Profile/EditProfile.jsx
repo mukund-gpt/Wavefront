@@ -43,8 +43,7 @@ const EditProfile = () => {
         const data = await response.json();
         console.log(data);
         dispatch(setAuthUser(data.user));
-        navigate(``);
-        // navigate(`profile/${user?._id}`);
+        navigate(`/profile/${user?._id}`);
         toast.success(data.message);
       } else {
         const error = await response.json();
@@ -60,7 +59,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="ml-1/6 w-5/6 mx-auto p-6 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 rounded-md mt-2">
+    <div className="ml-1/6 w-5/6 mx-auto p-6 rounded-md mt-2">
       <h1 className="text-3xl font-extrabold mb-8 text-center text-purple-700">
         Edit Profile
       </h1>
