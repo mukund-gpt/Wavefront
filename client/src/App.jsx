@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import SignUp from "./pages/Signup";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
+import SignUp from "./components/auth/Signup";
+import Home from "./components/Home";
+import Login from "./components/auth/Login";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/Profile/EditProfile";
 import ChatPage from "./components/Message/ChatPage";
@@ -13,8 +13,8 @@ import { baseUrl } from "./utils/baseUrl";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { setLikeNotification } from "./redux/rtnSlice";
-import ForgetPassword from "./components/ForgetPassword";
-import ResetPassword from "./components/ResetPassword";
+import ForgetPassword from "./components/auth/ForgetPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 
 const App = () => {
   const { user } = useSelector((store) => store.auth);
