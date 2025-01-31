@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IoIosSend } from "react-icons/io";
 import CommentDialog from "./CommentDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -162,7 +161,7 @@ const Post = ({ post }) => {
 
         <div className="">
           <div className="flex items-center justify-between text-black">
-            <div className="w-1/4 flex justify-between items-center">
+            <div className="w-1/6 flex justify-between items-center">
               <div
                 onClick={likeOrDislikeHandler}
                 className="w-7 h-7 cursor-pointer"
@@ -175,7 +174,6 @@ const Post = ({ post }) => {
                   dispatch(setSelectedPost(post)), setOpenComment(!openComment);
                 }}
               />
-              <IoIosSend className="cursor-pointer size-7" />
             </div>
 
             <BookmarkIcon post={post} />

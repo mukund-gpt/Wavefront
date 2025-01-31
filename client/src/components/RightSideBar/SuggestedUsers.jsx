@@ -11,7 +11,7 @@ const SuggestedUsers = () => {
   const navigateToProfile = (id) => navigate(`/profile/${id}`);
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full pt-4">
       <div className="text-base text-center font-bold">Suggested Users</div>
 
       <div className="mt-2 space-y-4">

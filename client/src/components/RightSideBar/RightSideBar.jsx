@@ -7,7 +7,7 @@ const RightSideBar = () => {
 
   return (
     <div className="flex justify-center items-start w-full">
-      <div className="bg-white p-4 max-w-md rounded-lg">
+      <div className="bg-white max-w-md rounded-lg pt-4">
         {/* User Profile Section */}
         <div className="flex items-center gap-3 mb-4">
           <div className="avatar flex items-center p-2">

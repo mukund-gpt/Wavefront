@@ -12,14 +12,6 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("posts");
   const displayedPosts =
     activeTab === "posts" ? userProfile?.posts : userProfile?.bookmarks;
-  const isFollowing =
-    user.following.some((id) => id === userProfile?._id) || false;
-  // console.log(isFollowing);
-
-  // Handle Follow/Unfollow button click
-  const handleFollowClick = () => {
-    alert("Follow/Unfollow action triggered!");
-  };
 
   const handleSendMessage = () => {
     dispatch(setSelectedUser(userProfile));
@@ -52,21 +44,6 @@ const Profile = () => {
                 </Link>
               ) : (
                 <>
-                  {!isFollowing ? (
-                    <button
-                      onClick={handleFollowClick}
-                      className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer"
-                    >
-                      Follow
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleFollowClick}
-                      className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer"
-                    >
-                      Unfollow
-                    </button>
-                  )}
                   <button
                     onClick={handleSendMessage}
                     className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer"

@@ -23,12 +23,12 @@ const Home = () => {
 
   return (
     <div className="h-[100vh]">
-      <div className="flex flex-col max-h-[100vh] lg:flex-row">
-        <div className="flex-grow w-full overflow-auto lg:w-4/6 px-4 py-2 max-h-[100vh] scrollbar-hide">
+      <div className="flex flex-col lg:flex-row max-h-screen">
+        <div className="flex-grow w-full overflow-auto px-4 py-2 scrollbar-hide lg:flex-[3] min-h-0">
           <Posts />
         </div>
 
-        <div className="hidden lg:flex w-2/6 max-h-[100vh] overflow-auto">
+        <div className="hidden lg:flex lg:flex-[2] overflow-auto min-h-0">
           <RightSideBar />
         </div>
       </div>
