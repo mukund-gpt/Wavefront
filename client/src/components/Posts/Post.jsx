@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaRegHeart, FaCommentAlt } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import CommentDialog from "./CommentDialog";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +6,10 @@ import { toast } from "react-toastify";
 import { baseUrl } from "@/utils/baseUrl";
 import { setPosts, setSelectedPost } from "@/redux/postSlice";
 import BookmarkIcon from "./BookmarkIcon";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import FillHeart from "@/assests/SVG/FillHeart";
+import Heart from "@/assests/SVG/Heart";
+import { CiMenuKebab } from "react-icons/ci";
 
 const Post = ({ post }) => {
   const { user } = useSelector((store) => store.auth);
@@ -117,13 +120,15 @@ const Post = ({ post }) => {
   return (
     <>
       <div className="my-6 w-full max-w-sm mx-auto">
-        <div className="flex items-center justify-between bg-red-300">
+        <div className="flex items-center justify-between bg-primary">
           <div className="flex items-center gap-2">
             <div className="avatar flex items-center p-1 ">
               <div className="w-10 rounded-full">
                 <img src={post?.author?.profilePic} />
               </div>
-              <span className="mx-3 text-black">{post?.author?.username}</span>
+              <span className="mx-3 text-secondary font-bold">
+                {post?.author?.username}
+              </span>
               {user?._id === post?.author?._id && (
                 <span className="badge">Author</span>
               )}
@@ -131,30 +136,26 @@ const Post = ({ post }) => {
           </div>
 
           {/* dropdown */}
-          <details className=" dropdown dropdown-end">
-            <summary className="btn m-1 bg-transparent hover:bg-transparent border-none text-black">
-              :
-            </summary>
-            <ul className="menu dropdown-content font-bold bg-white text-black rounded-box z-[1] w-40 p-2">
-              <li>
-                <a>Unfollow</a>
-              </li>
-
-              {user?._id === post?.author?._id && (
+          {user?._id === post?.author?._id && (
+            <details className=" dropdown dropdown-end">
+              <summary className="btn p-2 bg-transparent hover:bg-transparent border-none text-black">
+                <CiMenuKebab className="h-5 w-5" />
+              </summary>
+              <ul className="p-0 menu dropdown-content font-bold bg-white text-black rounded-box z-[1] w-40">
                 <li
-                  className="text-red bg-red-400 rounded-sm"
+                  className="text-red bg-red-400 rounded-md"
                   onClick={deletePostHandler}
                 >
                   <a>Delete</a>
                 </li>
-              )}
-            </ul>
-          </details>
+              </ul>
+            </details>
+          )}
         </div>
 
         {/* POST */}
         <img
-          className="py-2 rounded-sm w-full aspect-square object-cover"
+          className="w-full aspect-square object-cover"
           src={post?.image}
           alt="post_image"
         />
@@ -162,15 +163,14 @@ const Post = ({ post }) => {
         <div className="">
           <div className="flex items-center justify-between text-black">
             <div className="w-1/4 flex justify-between items-center">
-              <FaRegHeart
+              <div
                 onClick={likeOrDislikeHandler}
-                className={`cursor-pointer size-6 ${
-                  liked ? "text-red-500" : "text-black"
-                }`}
-              />
-
-              <FaCommentAlt
-                className="cursor-pointer size-6"
+                className="w-7 h-7 cursor-pointer"
+              >
+                {liked ? <FillHeart /> : <Heart />}
+              </div>
+              <IoChatbubbleEllipsesOutline
+                className="cursor-pointer size-7"
                 onClick={() => {
                   dispatch(setSelectedPost(post)), setOpenComment(!openComment);
                 }}

@@ -6,7 +6,7 @@ const Posts = () => {
   const { posts } = useSelector((store) => store.post);
   return (
     <>
-      <div className="w-full">
+      <div className="w-full bg-primary">
         {posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}

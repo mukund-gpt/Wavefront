@@ -4,14 +4,14 @@ import LeftSideBar from "@/components/LeftSideBar";
 
 const Layout = () => {
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row bg-primary">
       {/* Persistent LeftSideBar */}
-      <div className="hidden md:block md:w-1/6 h-full bg-gray-100">
+      <div className="hidden md:block md:w-1/6 h-full">
         <LeftSideBar />
       </div>
 
       {/* Dynamic route content */}
-      <div className="w-full md:ml-1/6 md:max-w-5/6 flex-grow p-4">
+      <div className="w-full md:ml-1/6 md:max-w-5/6 flex-grow">
         <Outlet />
       </div>
     </div>
