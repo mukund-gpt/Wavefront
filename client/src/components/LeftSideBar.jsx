@@ -28,9 +28,9 @@ const LeftSideBar = () => {
     { icon: <PlusIcon />, text: "Create Post" },
     {
       icon: (
-        <div className="avatar flex items-center p-1 ">
+        <div className="avatar flex items-center">
           <div className="w-10 rounded-full">
-            <img src={user?.profilePic} />
+            <img src={user?.profilePic} alt="Profile" />
           </div>
         </div>
       ),
@@ -54,38 +54,37 @@ const LeftSideBar = () => {
       setOpenNotification(true);
     }
   };
+
   return (
     <>
-      <div className="top-0 z-10 left-0 bg-primary h-full w-60">
-        <div className="flex flex-col h-full">
-          <h1
-            className="m-5 p-4 font-bold text-3xl text-orange-500 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Wavefront
-          </h1>
-          <div className="flex-1 overflow-y-auto">
-            {sideBarItems.map((item, index) => {
-              return (
-                <div
-                  className="flex items-center mx-3 my-2 p-3 px-8 cursor-pointer rounded-3xl hover:bg-slate-200"
-                  key={index}
-                  onClick={() => sideBarHandler(item.text)}
-                >
-                  <span className="flex items-center justify-center">
-                    {item.icon}
-                  </span>
-                  <span className="ml-4 text-secondary font-bold">
-                    {item.text}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+      {/* Sidebar */}
+      <div className="bg-primary h-full w-fit md:w-60 fixed top-0 left-0 z-10 flex flex-col">
+        <h1
+          className="sm:mx-5 my-5 p-3 md:px-5 font-bold text-3xl text-orange-500 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <span className="block md:hidden">W</span>
+          <span className="hidden md:block">Wavefront</span>
+        </h1>
+        <div className="flex-1 overflow-y-auto">
+          {sideBarItems.map((item, index) => (
+            <div
+              className="flex items-center sm:mx-3 my-2 p-3 px-4 md:px-5 cursor-pointer rounded-3xl hover:bg-slate-200"
+              key={index}
+              onClick={() => sideBarHandler(item.text)}
+            >
+              <span className="flex items-center justify-center">
+                {item.icon}
+              </span>
+              <span className="ml-4 text-secondary font-bold hidden md:block">
+                {item.text}
+              </span>
+            </div>
+          ))}
         </div>
-        <CreatePost open={open} setOpen={setOpen} />
-        <Notification open={openNotification} setOpen={setOpenNotification} />
       </div>
+      <CreatePost open={open} setOpen={setOpen} />
+      <Notification open={openNotification} setOpen={setOpenNotification} />
     </>
   );
 };

@@ -161,7 +161,7 @@ const Post = ({ post }) => {
 
         <div className="">
           <div className="flex items-center justify-between text-black">
-            <div className="w-1/6 flex justify-between items-center">
+            <div className="w-2/6 px-1 flex justify-start gap-2 items-center">
               <div
                 onClick={likeOrDislikeHandler}
                 className="w-7 h-7 cursor-pointer"
@@ -179,10 +179,10 @@ const Post = ({ post }) => {
             <BookmarkIcon post={post} />
           </div>
 
-          <div className="text-black">
+          <div className="text-black px-1">
             <div>{postLikeCount} likes</div>
             <div>
-              <span className="font-bold mx-1">{post?.author.username}</span>
+              <span className="font-bold px-1">{post?.author.username}</span>
               {post?.caption}
             </div>
             <div className="text-gray-600 cursor-pointer ">
