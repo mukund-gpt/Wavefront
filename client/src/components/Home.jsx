@@ -22,8 +22,8 @@ const Home = () => {
   useGetSuggestedUsers();
 
   return (
-    <div className="h-[100vh]">
-      <div className="flex flex-col lg:flex-row max-h-screen">
+    <div className="h-[100vh] ">
+      <div className="flex flex-col lg:flex-row max-h-[95vh]">
         <div className="flex-grow w-full overflow-auto px-2 md:px-4 py-2 scrollbar-hide lg:flex-[3] min-h-0">
           <Posts />
         </div>

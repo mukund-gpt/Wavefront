@@ -21,7 +21,7 @@ const Profile = () => {
   useGetUserProfile();
 
   return (
-    <div className="ml-1/6 min-h-screen min-w-[350px]">
+    <div className="pt-20 sm:pt-0 ml-1/6 min-h-screen min-w-[350px]">
       <div className="w-full sm:w-5/6 mx-auto bg-white p-2 sm:p-4 sm:pt-8">
         {/* Profile Header */}
         <div className="flex items-center gap-4 mb-6">

@@ -59,7 +59,7 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="ml-1/6 w-5/6 mx-auto p-6 rounded-md mt-2">
+    <div className="pt-20 sm:pt-6 ml-1/6 w-5/6 mx-auto p-6 rounded-md mt-2">
       <h1 className="text-3xl font-extrabold mb-8 text-center text-purple-700">
         Edit Profile
       </h1>

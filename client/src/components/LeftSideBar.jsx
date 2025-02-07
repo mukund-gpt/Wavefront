@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import {
   HomeIcon,
   LogoutIcon,
-  MessagesIcon,
   NotificationIcon,
-  PlusIcon,
 } from "@/assests/SVG/LeftSideBarIcons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CreatePost from "./CreatePost";
 import Notification from "./Notification";
 import useLogout from "@/hooks/useLogout";
+
+import plusIcon from "../assests/plusicon.png";
+import chatIcon from "../assests/chaticon.png";
 
 const LeftSideBar = () => {
   const navigate = useNavigate();
@@ -23,9 +24,9 @@ const LeftSideBar = () => {
 
   const sideBarItems = [
     { icon: <HomeIcon />, text: "Home" },
-    { icon: <MessagesIcon />, text: "Messages" },
+    { icon: <img src={chatIcon} className="h-7 w-7" />, text: "Messages" },
     { icon: <NotificationIcon />, text: "Notifications" },
-    { icon: <PlusIcon />, text: "Create Post" },
+    { icon: <img src={plusIcon} className="h-7 w-7" />, text: "Create Post" },
     {
       icon: (
         <div className="avatar flex items-center">
@@ -58,7 +59,7 @@ const LeftSideBar = () => {
   return (
     <>
       {/* Sidebar */}
-      <div className="bg-primary h-full w-fit md:w-60 fixed top-0 left-0 z-10 flex flex-col">
+      <div className="hidden bg-primary h-full w-fit md:w-60 fixed top-0 left-0 z-10 sm:flex flex-col">
         <h1
           className="sm:mx-5 my-5 p-3 md:px-5 font-bold text-3xl text-orange-500 cursor-pointer"
           onClick={() => navigate("/")}
