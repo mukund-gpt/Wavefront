@@ -59,7 +59,7 @@ const LeftSideBar = () => {
   return (
     <>
       {/* Sidebar */}
-      <div className="hidden bg-primary h-full w-fit md:w-60 fixed top-0 left-0 z-10 sm:flex flex-col">
+      <div className="hidden bg-primary h-full w-fit md:w-45 fixed top-0 left-0 z-10 sm:flex flex-col">
         <h1
           className="sm:mx-5 my-5 p-3 md:px-5 font-bold text-3xl text-orange-500 cursor-pointer"
           onClick={() => navigate("/")}

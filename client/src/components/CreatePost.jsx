@@ -88,6 +88,7 @@ const CreatePost = ({ open, setOpen }) => {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                className="cursor-pointer text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gradient-to-r file:from-purple-400 file:to-pink-400 file:text-white file:font-semibold file:shadow-lg hover:file:opacity-90"
               />
             </div>
 

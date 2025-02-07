@@ -2,11 +2,12 @@ import useGetAllMessages from "@/hooks/useGetAllMessages";
 import useGetRTM from "@/hooks/useGetRTM";
 import { setMessages } from "@/redux/chatSlice";
 import { baseUrl } from "@/utils/baseUrl";
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const ChatSection = () => {
+const ChatSection = ({ setShowChat }) => {
   useGetAllMessages();
   useGetRTM();
   const { messages: chatsOfSelectedUser } = useSelector((store) => store.chat);
@@ -58,11 +59,17 @@ const ChatSection = () => {
   }, [chatsOfSelectedUser]); // Dependency array ensures it runs when chats change
 
   return (
-    <div className="w-4/5 sm:w-3/5 md:w-2/5 bg-white p-4 sm:p-6 flex flex-col h-full">
+    <div className="w-full bg-white p-4 sm:py-6 flex flex-col h-full">
       {selectedUser ? (
         <>
           {/* User Header */}
-          <div className="flex items-center gap-4 p-2 border-b border-gray-200 hover:bg-gray-100 rounded-lg">
+          <button
+            onClick={() => setShowChat(false)}
+            className="absolute top-7 left-4 sm:hidden bg-gray-200 p-2 rounded-full"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-4 pl-16 sm:pl-2 p-2 border-b border-gray-200 hover:bg-gray-100 rounded-lg">
             <img
               src={selectedUser?.profilePic}
               className="w-10 h-10 rounded-full object-cover"
@@ -71,9 +78,8 @@ const ChatSection = () => {
               {selectedUser?.username}
             </span>
           </div>
-
           {/* Chat Area */}
-          <div className="flex-1 overflow-y-auto p-4 scrollbar-hide">
+          <div className="flex-1 overflow-y-auto sm:p-2 scrollbar-hide">
             {chatsOfSelectedUser && chatsOfSelectedUser.length > 0 ? (
               chatsOfSelectedUser.map(
                 (chat) =>
@@ -99,7 +105,6 @@ const ChatSection = () => {
             {/* Scroll to the bottom */}
             <div ref={bottomRef} />
           </div>
-
           {/* Input Section */}
           <div className="mt-4 flex">
             <input

@@ -59,20 +59,20 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="pt-20 sm:pt-6 ml-1/6 w-5/6 mx-auto p-6 rounded-md mt-2">
-      <h1 className="text-3xl font-extrabold mb-8 text-center text-purple-700">
+    <div className="pt-16 sm:pt-6 ml-1/6 w-5/6 mx-auto sm:p-6 rounded-md mt-2">
+      <h1 className="text-3xl font-extrabold mb-3 text-center text-purple-700">
         Edit Profile
       </h1>
       <form onSubmit={handleSubmit}>
         {/* Avatar Upload */}
-        <div className="mb-8">
+        <div className="mb-3">
           <label
             htmlFor="avatar"
             className="block text-lg font-medium text-purple-600 mb-3"
           >
             Avatar
           </label>
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-1 sm:space-x-6">
             <img
               src={avatar}
               alt="Uploaded Avatar"
@@ -83,16 +83,16 @@ const EditProfile = () => {
               id="avatar"
               accept="image/*"
               onChange={handleImageChange}
-              className="text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gradient-to-r file:from-purple-400 file:to-pink-400 file:text-white file:font-semibold file:shadow-lg hover:file:opacity-90"
+              className="text-sm text-gray-700 w-full max-w-xs file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gradient-to-r file:from-purple-400 file:to-pink-400 file:text-white file:font-semibold file:shadow-lg hover:file:opacity-90"
             />
           </div>
         </div>
 
         {/* Choose Gender */}
-        <div className="mb-8">
+        <div className="mb-4">
           <label
             htmlFor="gender"
-            className="block text-lg font-medium text-purple-600 mb-3"
+            className="block text-lg font-medium text-purple-600 mb-1"
           >
             Gender
           </label>
@@ -100,7 +100,7 @@ const EditProfile = () => {
             id="gender"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            className="w-1/6 p-1 border-purple-300 rounded-md shadow-md focus:ring-purple-500 focus:border-purple-500 text-gray-700"
+            className="w-2/6 sm:w-1/6 p-1 border-purple-300 rounded-md shadow-md focus:ring-purple-500 focus:border-purple-500 text-gray-700"
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -132,7 +132,7 @@ const EditProfile = () => {
         <div className="text-center">
           <button
             type="submit"
-            className={`px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-purple-300 flex items-center justify-center ${
+            className={`px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-lg shadow-lg hover:opacity-90 focus:outline-none focus:ring-4 focus:ring-purple-300 flex items-center justify-center ${
               isLoading && "cursor-not-allowed opacity-80"
             }`}
             disabled={isLoading}

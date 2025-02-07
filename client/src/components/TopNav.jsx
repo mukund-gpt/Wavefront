@@ -11,7 +11,7 @@ const TopNav = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <div className="flex flex-row py-4 justify-between">
+      <div className="flex flex-row py-3 justify-between">
         <span
           className="font-bold text-3xl ml-5 text-orange-500 cursor-pointer"
           onClick={() => navigate("/")}
