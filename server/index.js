@@ -17,6 +17,7 @@ app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 const corsOptions = {
   origin: process.env.FRONTEND_URI,
+  methods: "GET,POST,PUT,DELETE,PATCH",
   credentials: true,
 };
 app.use(cors(corsOptions));
