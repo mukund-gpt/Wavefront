@@ -154,13 +154,13 @@ const Post = ({ post }) => {
 
         {/* POST */}
         <img
-          className="w-full aspect-square object-cover"
+          className="w-full aspect-square object-cover rounded-md"
           src={post?.image}
           alt="post_image"
         />
 
         <div className="">
-          <div className="flex items-center justify-between text-black">
+          <div className="py-1 flex items-center justify-between text-black">
             <div className="w-2/6 px-1 flex justify-start gap-2 items-center">
               <div
                 onClick={likeOrDislikeHandler}

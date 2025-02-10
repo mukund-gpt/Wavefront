@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./Comment";
 import { baseUrl } from "@/utils/baseUrl";
@@ -9,7 +9,6 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
   const { selectedPost, posts } = useSelector((store) => store.post);
 
   const dispatch = useDispatch();
-  const commentsEndRef = useRef(null);
 
   const [text, setText] = useState("");
   const [comment, setComment] = useState([]);
@@ -85,7 +84,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
     <>
       <input type="checkbox" id="commentbox" className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className="modal-box p-0 md:max-w-4xl bg-gray-300">
+        <div className="modal-box p-0 md:max-w-4xl">
           <div className="flex flex-col md:flex-row flex-1">
             {/* Image section */}
             <div className="w-full md:w-3/5 h-64 md:h-auto">
@@ -99,7 +98,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
             {/* Comment section */}
             <div className="w-full md:w-2/5 flex flex-col justify-between">
               {/* User info and options */}
-              <div className="flex items-center justify-between bg-red-300 p-3">
+              <div className="flex items-center justify-between bg-white p-3">
                 <div className="flex items-center gap-2">
                   <div className="avatar">
                     <div className="w-10 rounded-full">
@@ -116,7 +115,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
               </div>
 
               {/* Comments */}
-              <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 px-2 py-1 scrollbar-hide">
+              <div className="flex-1 overflow-y-auto max-h-60 md:max-h-96 px-2 py-1 scrollbar-hide bg-gray-200">
                 {comment
                   ?.slice()
                   .reverse()
@@ -126,7 +125,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
               </div>
 
               {/* Add comment input */}
-              <div className="flex items-center gap-2 p-2 bg-gray-100 rounded-md shadow-sm">
+              <div className="flex items-center gap-2 p-1 bg-gray-100 rounded-md shadow-sm">
                 <input
                   type="text"
                   value={text}
@@ -138,7 +137,7 @@ const CommentDialog = ({ openComment, setOpenComment }) => {
                 <button
                   onClick={commentHandler}
                   disabled={!text.trim()}
-                  className={`btn btn-success text-white px-4 py-2 rounded-md ${
+                  className={`btn btn-success text-white px-3 rounded-md ${
                     !text.trim()
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-blue-500 hover:bg-blue-600"

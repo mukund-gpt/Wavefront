@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseUrl } from "@/utils/baseUrl";
-import GoogleSvg from "@/assests/SVG/GoogleSvg";
 import OpenEye from "@/assests/SVG/OpenEye";
 import CloseEye from "@/assests/SVG/CloseEye";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/redux/authSlice";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -121,15 +121,7 @@ const SignUp = () => {
 
             <br />
             <hr />
-
-            <button className="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-black font-medium">
-              <GoogleSvg />
-              Login with Google
-            </button>
-            <div className="mt-10 text-sm border-b border-gray-500 py-5 playfair tooltip text-black">
-              Forget password?
-            </div>
-
+            <GoogleLoginButton />
             <div className="mt-4 text-sm flex justify-between items-center container-mr">
               <p className="mr-3 md:mr-0 text-black">
                 If you already a member, log in now.

@@ -15,7 +15,7 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="w-full pt-10 sm:pt-0 flex h-[94vh] justify-center items-center">
+    <div className="w-full pt-10 sm:pt-0 flex h-[90vh] justify-center items-center">
       <div className="flex-1 flex sm:justify-end h-full">
         {/* Friends List */}
         <div
