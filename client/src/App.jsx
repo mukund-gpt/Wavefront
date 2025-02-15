@@ -9,7 +9,7 @@ import ChatPage from "./components/Message/ChatPage";
 import Layout from "./components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-import { socketUrl } from "./utils/baseUrl";
+import { baseUrl } from "./utils/baseUrl";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { setLikeNotification } from "./redux/rtnSlice";
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      const socketio = io(`${socketUrl}`, {
+      const socketio = io(`${baseUrl}`, {
         query: { userId: user?._id },
         transports: ["websocket"],
       });
