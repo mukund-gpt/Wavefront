@@ -28,6 +28,7 @@ const Post = ({ post }) => {
   };
   const likeOrDislikeHandler = async () => {
     const action = liked ? "dislike" : "like";
+    setLiked(!liked);
     try {
       const res = await fetch(`${baseUrl}/api/v1/post/${post?._id}/${action}`, {
         method: "PATCH",

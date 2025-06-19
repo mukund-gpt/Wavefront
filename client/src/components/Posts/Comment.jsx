@@ -3,7 +3,7 @@ import React from "react";
 const Comment = ({ comment }) => {
   return (
     <>
-      <div className="flex items-start gap-3 p-2 bg-base-100 bg-transparent">
+      <div className="flex items-start gap-3 p-2 bg-white">
         <img
           src={comment.author.profilePic}
           alt="Profile"

@@ -106,7 +106,7 @@ const ChatSection = ({ setShowChat }) => {
             <div ref={bottomRef} />
           </div>
           {/* Input Section */}
-          <div className="mt-4 flex">
+          <div className="mt-4 mb-2 flex">
             <input
               type="text"
               value={text}

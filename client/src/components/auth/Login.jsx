@@ -69,15 +69,15 @@ const Login = () => {
   return (
     <>
       <section className="bg-gray-100 min-h-screen flex box-border justify-center items-center">
-        <div className="bg-[#dfa674] rounded-2xl flex max-w-3xl p-5 items-center">
-          <div className="sm:w-400 px-8">
+        <div className="bg-[#dfa674] rounded-2xl flex max-w-3xl p-3 m-1 items-center">
+          <div className="w-full sm:w-400 px-4">
             <h2 className="font-bold text-3xl text-[#002D74] text-center my-5">
               Login
             </h2>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
-                className="p-3 rounded-xl border border-white bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="min-w-[300px] p-3 rounded-xl border border-white bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 type="email"
                 name="email"
                 placeholder="Email"
@@ -123,10 +123,9 @@ const Login = () => {
             </div>
 
             <div className="mt-4 text-sm flex justify-between items-center container-mr">
-              <p className="mr-4 text-black">Not a member, Register now.</p>
               <Link to="/signup">
                 <button className="hover:border register text-white bg-[#002c74c5] hover:border-gray-400 rounded-xl py-2 px-5 hover:scale-110 hover:bg-[#002D74] font-semibold duration-300">
-                  Register
+                  Sign Up
                 </button>
               </Link>
             </div>

@@ -22,6 +22,11 @@ const Notification = ({ open, setOpen }) => {
             className="bg-white h-1/2 w-10/12 sm:w-1/2 rounded-lg shadow-lg overflow-hidden"
             onClick={stopPropagation}
           >
+            {likeNotification.length === 0 && (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-gray-500">No new notifications</p>
+              </div>
+            )}
             <div className="h-full overflow-y-auto scrollbar-hide px-4 py-2">
               {likeNotification.map((noti) => (
                 <div
