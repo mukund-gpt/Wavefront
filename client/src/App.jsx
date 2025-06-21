@@ -1,24 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import SignUp from "./components/auth/Signup";
-import Home from "./components/Home";
-import Login from "./components/auth/Login";
-import Profile from "./components/Profile/Profile";
-import EditProfile from "./components/Profile/EditProfile";
-import ChatPage from "./components/Message/ChatPage";
-import Layout from "./components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { baseUrl } from "./utils/baseUrl";
 import { setSocket } from "./redux/socketSlice";
 import { setOnlineUsers } from "./redux/chatSlice";
 import { setLikeNotification } from "./redux/rtnSlice";
-import ForgetPassword from "./components/auth/ForgetPassword";
-import ResetPassword from "./components/auth/ResetPassword";
+import { FaSpinner } from "react-icons/fa";
+
+// Lazy-loaded components
+const SignUp = lazy(() => import("./components/auth/Signup"));
+const Login = lazy(() => import("./components/auth/Login"));
+const ForgetPassword = lazy(() => import("./components/auth/ForgetPassword"));
+const ResetPassword = lazy(() => import("./components/auth/ResetPassword"));
+
+const Layout = lazy(() => import("./components/Layout"));
+const Home = lazy(() => import("./components/Home"));
+const Profile = lazy(() => import("./components/Profile/Profile"));
+const EditProfile = lazy(() => import("./components/Profile/EditProfile"));
+const ChatPage = lazy(() => import("./components/Message/ChatPage"));
 
 const App = () => {
-  const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+
+  const { user } = useSelector((store) => store.auth);
   const { socket } = useSelector((store) => store.socketio);
 
   useEffect(() => {
@@ -54,36 +59,44 @@ const App = () => {
   }, [user, dispatch]);
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen w-full bg-white z-50">
+          <FaSpinner className="text-blue-500 text-5xl animate-spin" />
+        </div>
+      }
+    >
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
 
-      <Route
-        path="/forget-password"
-        element={!user ? <ForgetPassword /> : <Navigate to="/" />}
-      />
-      <Route
-        path="/reset-password/:token"
-        element={!user ? <ResetPassword /> : <Navigate to="/" />}
-      />
+        <Route
+          path="/forget-password"
+          element={!user ? <ForgetPassword /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/reset-password/:token"
+          element={!user ? <ResetPassword /> : <Navigate to="/" />}
+        />
 
-      {/* Protected Routes (wrapped in Layout) */}
-      <Route
-        path="/"
-        element={user ? <Layout /> : <Navigate to="/login" replace />}
-      >
-        <Route index element={<Home />} />
-        <Route path="profile/edit" element={<EditProfile />} />
-        <Route path="profile/:id" element={<Profile />} />
-        <Route path="chat" element={<ChatPage />} />
-      </Route>
+        {/* Protected Routes (wrapped in Layout) */}
+        <Route
+          path="/"
+          element={user ? <Layout /> : <Navigate to="/login" replace />}
+        >
+          <Route index element={<Home />} />
+          <Route path="profile/edit" element={<EditProfile />} />
+          <Route path="profile/:id" element={<Profile />} />
+          <Route path="chat" element={<ChatPage />} />
+        </Route>
 
-      <Route
-        path="*"
-        element={<Navigate to={user ? "/" : "/login"} replace />}
-      />
-    </Routes>
+        <Route
+          path="*"
+          element={<Navigate to={user ? "/" : "/login"} replace />}
+        />
+      </Routes>
+    </Suspense>
   );
 };
 

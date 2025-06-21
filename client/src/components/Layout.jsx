@@ -19,7 +19,10 @@ const Layout = () => {
       <div className="w-4/6 ml-2/6 md:max-w-4/6 flex-grow">
         <Outlet />
       </div>
-      <div className="block sm:hidden absolute bottom-0 bg-white w-full">
+      {/* <div className="block sm:hidden absolute bottom-0 bg-white w-full">
+        <BottomNav />
+      </div> */}
+      <div className="block sm:hidden fixed bottom-0 left-0 w-full z-20 bg-white border-t">
         <BottomNav />
       </div>
     </div>

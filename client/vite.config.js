@@ -9,4 +9,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: "0.0.0.0", // ← This is critical for mobile access
+    port: 5173, // Optional: you can change the port if needed
+  },
 });
